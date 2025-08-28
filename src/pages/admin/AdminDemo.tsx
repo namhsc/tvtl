@@ -8,7 +8,7 @@ const AdminDemo: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <AdminLayout title="Demo Admin Panel">
+    <AdminLayout>
       <Box>
         {/* Welcome Section */}
         <Paper sx={{ p: 4, mb: 4, textAlign: 'center' }}>

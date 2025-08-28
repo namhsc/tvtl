@@ -66,13 +66,13 @@ const UserManagement: React.FC = () => {
     try {
       setState(prev => ({ ...prev, loading: true }));
       
-      const response = await apiUser.getUsers({
-        page: state.page,
-        size: state.rowsPerPage,
-        search: state.searchTerm || undefined,
-        status: state.statusFilter !== 'all' ? state.statusFilter : undefined,
-        role: state.roleFilter !== 'all' ? state.roleFilter : undefined,
-      });
+      const response = await apiUser.getUserList(
+        state.page,
+        state.rowsPerPage,
+        state.searchTerm || undefined,
+        state.statusFilter !== 'all' ? state.statusFilter : undefined,
+        state.roleFilter !== 'all' ? state.roleFilter : undefined
+      );
 
       if (response.success) {
         setState(prev => ({
@@ -99,24 +99,24 @@ const UserManagement: React.FC = () => {
     }
   };
 
-  const handleSearch = (searchTerm: string) => {
-    setState(prev => ({ ...prev, searchTerm, page: 0 }));
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState(prev => ({ ...prev, searchTerm: event.target.value, page: 0 }));
   };
 
-  const handleStatusFilter = (status: string) => {
-    setState(prev => ({ ...prev, statusFilter: status, page: 0 }));
+  const handleStatusFilter = (event: any) => {
+    setState(prev => ({ ...prev, statusFilter: event.target.value, page: 0 }));
   };
 
-  const handleRoleFilter = (role: string) => {
-    setState(prev => ({ ...prev, roleFilter: role, page: 0 }));
+  const handleRoleFilter = (event: any) => {
+    setState(prev => ({ ...prev, roleFilter: event.target.value, page: 0 }));
   };
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = (event: unknown, newPage: number) => {
     setState(prev => ({ ...prev, page: newPage }));
   };
 
-  const handleRowsPerPageChange = (newRowsPerPage: number) => {
-    setState(prev => ({ ...prev, rowsPerPage: newRowsPerPage, page: 0 }));
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState(prev => ({ ...prev, rowsPerPage: parseInt(event.target.value, 10), page: 0 }));
   };
 
   const handleAddUser = () => {
@@ -149,6 +149,20 @@ const UserManagement: React.FC = () => {
     showSnackbar('Thêm người dùng thành công', 'success');
   };
 
+  const handleToggleUserStatus = async (user: User) => {
+    try {
+      // TODO: Gọi API để thay đổi trạng thái người dùng
+      showSnackbar(
+        `Đã ${user.active ? 'khóa' : 'mở khóa'} người dùng ${user.fullName}`,
+        'success'
+      );
+      await loadUsers();
+    } catch (error) {
+      console.error('Error toggling user status:', error);
+      showSnackbar('Lỗi khi thay đổi trạng thái người dùng', 'error');
+    }
+  };
+
   const showSnackbar = (message: string, severity: 'success' | 'error' | 'info' | 'warning') => {
     setState(prev => ({
       ...prev,
@@ -163,25 +177,53 @@ const UserManagement: React.FC = () => {
     }));
   };
 
+  // Tạo dữ liệu thống kê theo role
+  const getCountsByRole = () => {
+    const roleCounts = state.users.reduce((acc, user) => {
+      user.roles?.forEach(role => {
+        acc[role] = (acc[role] || 0) + 1;
+      });
+      return acc;
+    }, {} as Record<string, number>);
+
+    return Object.entries(roleCounts).map(([role, count]) => ({
+      role,
+      count,
+    }));
+  };
+
   return (
     <AdminLayout>
       <Box sx={{ p: 3 }}>
-        <UserManagementHeader onAddUser={handleAddUser} />
+        <UserManagementHeader 
+          onRefresh={loadUsers}
+          onImport={() => showSnackbar('Tính năng nhập dữ liệu đang được phát triển', 'info')}
+          onExport={() => showSnackbar('Tính năng xuất dữ liệu đang được phát triển', 'info')}
+          onAddUser={handleAddUser}
+          loading={state.loading}
+        />
         
         <UserStatisticsCards 
+          countsByRole={getCountsByRole()}
           totalUsers={state.totalElements}
-          activeUsers={state.users.filter(u => u.status === 'ACTIVE').length}
-          pendingUsers={state.users.filter(u => u.status === 'PENDING').length}
-          blockedUsers={state.users.filter(u => u.status === 'BLOCKED').length}
         />
 
         <UserFilters
           searchTerm={state.searchTerm}
           statusFilter={state.statusFilter}
           roleFilter={state.roleFilter}
-          onSearch={handleSearch}
-          onStatusFilter={handleStatusFilter}
-          onRoleFilter={handleRoleFilter}
+          onSearchChange={handleSearch}
+          onStatusFilterChange={handleStatusFilter}
+          onRoleFilterChange={handleRoleFilter}
+          onClearFilters={() => {
+            setState(prev => ({
+              ...prev,
+              searchTerm: '',
+              statusFilter: 'all',
+              roleFilter: 'all',
+              page: 0,
+            }));
+          }}
         />
 
         <UsersTable
@@ -194,19 +236,58 @@ const UserManagement: React.FC = () => {
           onRowsPerPageChange={handleRowsPerPageChange}
           onEditUser={handleEditUser}
           onDeleteUser={handleDeleteUser}
+          onToggleUserStatus={handleToggleUserStatus}
         />
 
         <AddUserModal
           open={state.addUserDialogOpen}
           onClose={() => setState(prev => ({ ...prev, addUserDialogOpen: false }))}
-          onSuccess={handleUserAdded}
+          onSave={async (userData: Partial<User>) => {
+            try {
+              // TODO: Gọi API để tạo người dùng mới
+              // const response = await apiUser.createUser(userData);
+              // if (response.success) {
+              //   handleUserAdded();
+              // }
+              handleUserAdded();
+            } catch (error) {
+              console.error('Error creating user:', error);
+              setState(prev => ({
+                ...prev,
+                snackbar: {
+                  open: true,
+                  message: 'Lỗi khi tạo người dùng mới',
+                  severity: 'error',
+                },
+              }));
+            }
+          }}
         />
 
         <EditUserModal
           open={state.editDialogOpen}
           user={state.selectedUser}
           onClose={() => setState(prev => ({ ...prev, editDialogOpen: false, selectedUser: null }))}
-          onSuccess={handleUserUpdated}
+          onSave={async (userData: Partial<User>) => {
+            try {
+              // TODO: Gọi API để cập nhật thông tin người dùng
+              // const response = await apiUser.updateUser(userData);
+              // if (response.success) {
+              //   handleUserUpdated();
+              // }
+              handleUserUpdated();
+            } catch (error) {
+              console.error('Error updating user:', error);
+              setState(prev => ({
+                ...prev,
+                snackbar: {
+                  open: true,
+                  message: 'Lỗi khi cập nhật thông tin người dùng',
+                  severity: 'error',
+                },
+              }));
+            }
+          }}
         />
 
         <DeleteUserDialog

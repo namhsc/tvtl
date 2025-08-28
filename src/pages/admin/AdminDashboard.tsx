@@ -87,7 +87,7 @@ const AdminDashboard: React.FC = () => {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       setStats({
         totalUsers: 1247,
         totalExperts: 89,

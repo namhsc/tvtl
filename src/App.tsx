@@ -22,7 +22,7 @@ import Experts from './pages/Experts';
 import ExpertRegistration from './pages/ExpertRegistration';
 import Profile from './pages/Profile';
 import AccessDenied from './pages/AccessDenied';
-import { RoleBasedRoute } from './components/common';
+import { RoleBasedRoute, ProtectedAdminRoute } from './components/common';
 
 import {
   AdminDashboard,
