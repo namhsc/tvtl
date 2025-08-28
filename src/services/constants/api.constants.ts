@@ -76,7 +76,22 @@ export const API_ENDPOINTS = {
 // ===== API CONFIGURATION =====
 
 export const API_CONFIG = {
-  BASE_URL: process.env.REACT_APP_API_URL || 'http://123.30.149.66:8280',
+  BASE_URL: (() => {
+    const envUrl = process.env.REACT_APP_API_URL;
+    const fallbackUrl = 'http://123.30.149.66:8280';
+
+    if (!envUrl || envUrl.trim() === '') {
+      return fallbackUrl;
+    }
+
+    // Kiểm tra URL có hợp lệ không
+    try {
+      const testUrl = new URL(envUrl);
+      return envUrl;
+    } catch (error) {
+      return fallbackUrl;
+    }
+  })(),
   TIMEOUT: 15000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,

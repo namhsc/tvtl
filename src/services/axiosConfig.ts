@@ -20,13 +20,40 @@ declare module 'axios' {
   }
 }
 
-// ===== AXIOS INSTANCES =====
+// ===== UTILITY FUNCTIONS =====
 
 /**
- * Axios instance chính cho API calls
+ * Kiểm tra URL có hợp lệ không
  */
+const isValidUrl = (urlString: string): boolean => {
+  try {
+    new URL(urlString);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Lấy BASE_URL an toàn với fallback
+ */
+const getSafeBaseUrl = (): string => {
+  const baseUrl = API_CONFIG.BASE_URL;
+
+  if (isValidUrl(baseUrl)) {
+    return baseUrl;
+  }
+
+  console.error('BASE_URL không hợp lệ:', baseUrl);
+  console.warn('Sử dụng fallback URL: http://localhost:3000');
+
+  return 'http://localhost:3000';
+};
+
+// ===== AXIOS INSTANCES =====
+
 const api: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
+  baseURL: 'http://123.30.149.66:8280', // Hardcode để tránh lỗi biến môi trường
   timeout: API_CONFIG.TIMEOUT,
   headers: { 'Content-Type': 'application/json' },
   // Thêm các options để tối ưu performance
@@ -35,15 +62,17 @@ const api: AxiosInstance = axios.create({
   validateStatus: status => status < 500, // Chỉ coi status < 500 là success
 });
 
-/**
- * Axios instance riêng cho refresh token để tránh vòng lặp
- */
+console.log('✅ Axios instance chính được tạo thành công với baseURL:', api.defaults.baseURL);
+
+
 const refreshClient: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
+  baseURL: 'http://123.30.149.66:8280', // Hardcode để tránh lỗi biến môi trường
   timeout: API_CONFIG.TIMEOUT,
   headers: { 'Content-Type': 'application/json' },
   maxRedirects: 0, // Không redirect cho refresh token
 });
+
+console.log('✅ Axios refresh instance được tạo thành công với baseURL:', refreshClient.defaults.baseURL);
 
 // ===== REFRESH TOKEN QUEUE =====
 

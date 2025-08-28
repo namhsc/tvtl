@@ -23,19 +23,15 @@ import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
-  School as SchoolIcon,
   Assessment as AssessmentIcon,
-  Settings as SettingsIcon,
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
   Logout as LogoutIcon,
-  ChevronLeft as ChevronLeftIcon,
   Close as CloseIcon,
-  ExpandLess as ExpandLessIcon,
-  ExpandMore as ExpandMoreIcon,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import logo from '../../assets/logo.png';
 
 const drawerWidth = 280;
 
@@ -99,125 +95,44 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       color: 'info',
     },
     {
-      text: 'Quản Lý Chuyên Gia',
-      icon: <SchoolIcon />,
-      path: '/admin/experts',
-      badge: 5,
-      color: 'warning',
-    },
-    {
       text: 'Quản Lý Khảo Sát',
       icon: <AssessmentIcon />,
       path: '/admin/surveys',
       badge: 8,
       color: 'success',
     },
-    {
-      text: 'Cài Đặt Hệ Thống',
-      icon: <SettingsIcon />,
-      path: '/admin/settings',
-      badge: null,
-      color: 'secondary',
-    },
+
   ];
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Logo và Title */}
-      <Box
+          <Typography
+        variant="h6"
         sx={{
+          textDecoration: 'none',
+          color: 'inherit',
+          fontWeight: 'bold',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          p: 3,
-          minHeight: 80,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          position: 'relative',
-          overflow: 'hidden',
+          justifyContent: 'center',
+          gap: 1,
+          pt: 2,
         }}
       >
-        <Box sx={{ position: 'relative', zIndex: 1 }}>
-          <Typography variant="h5" fontWeight="bold" sx={{ mb: 0.5 }}>
-            🚀 ADMIN PANEL
-          </Typography>
-          <Typography variant="caption" sx={{ opacity: 0.9 }}>
-            Quản lý hệ thống
-          </Typography>
-        </Box>
-        {isMobile && (
-          <IconButton onClick={handleDrawerToggle} sx={{ color: 'white' }}>
-            <CloseIcon />
-          </IconButton>
-        )}
-        {/* Background decoration */}
         <Box
+          component="img"
+          src={logo}
+          alt="Logo"
           sx={{
-            position: 'absolute',
-            top: -20,
-            right: -20,
-            width: 100,
-            height: 100,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255,255,255,0.1)',
+            height: 40,
+            width: 'auto',
+            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
           }}
         />
-        <Box
-          sx={{
-            position: 'absolute',
-            bottom: -30,
-            left: -30,
-            width: 80,
-            height: 80,
-            borderRadius: '50%',
-            bgcolor: 'rgba(255,255,255,0.08)',
-          }}
-        />
-      </Box>
+      </Typography>
 
-      {/* User Info */}
-      <Box sx={{ p: 2, bgcolor: 'grey.50' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            p: 2,
-            borderRadius: 2,
-            bgcolor: 'white',
-            boxShadow: 1,
-            border: '1px solid',
-            borderColor: 'divider',
-          }}
-        >
-          <Avatar
-            sx={{
-              width: 48,
-              height: 48,
-              bgcolor: 'primary.main',
-              mr: 2,
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-            }}
-          >
-            {user?.phone?.charAt(0)?.toUpperCase() || 'A'}
-          </Avatar>
-          <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography variant="subtitle1" fontWeight="600" noWrap>
-              {user?.phone || 'Admin'}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" noWrap>
-              {user?.roles?.join(', ') || 'Administrator'}
-            </Typography>
-          </Box>
-          <IconButton
-            size="small"
-            onClick={handleProfileMenuOpen}
-            sx={{ color: 'primary.main' }}
-          >
-            <AccountCircleIcon />
-          </IconButton>
-        </Box>
-      </Box>
+
 
       <Divider />
 
@@ -288,41 +203,45 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       </List>
 
       <Divider />
-
-      {/* Bottom Actions */}
-      <Box sx={{ p: 2 }}>
+      {/* User Info */}
+      <Box sx={{ p: 2}}>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            p: 1.5,
-            borderRadius: 2,
-            bgcolor: 'grey.50',
+            p: 2,
           }}
         >
-          <Tooltip title="Thông báo">
-            <IconButton
-              size="small"
-              onClick={handleNotificationsOpen}
-              sx={{ color: 'text.secondary' }}
-            >
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Đăng xuất">
-            <IconButton
-              size="small"
-              onClick={handleLogout}
-              sx={{ color: 'error.main' }}
-            >
-              <LogoutIcon />
-            </IconButton>
-          </Tooltip>
+          <Avatar
+            sx={{
+              width: 48,
+              height: 48,
+              bgcolor: 'primary.main',
+              mr: 2,
+              fontSize: '1.2rem',
+              fontWeight: 'bold',
+            }}
+          >
+            {user?.phone?.charAt(0)?.toUpperCase() || 'A'}
+          </Avatar>
+          <Box sx={{ minWidth: 0, flex: 1 }}>
+            <Typography variant="subtitle1" fontWeight="600" noWrap>
+              {user?.phone || 'Admin'}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" noWrap>
+              {user?.roles?.join(', ') || 'Administrator'}
+            </Typography>
+          </Box>
+          <IconButton
+            size="small"
+            onClick={handleProfileMenuOpen}
+            sx={{ color: 'primary.main' }}
+          >
+            <AccountCircleIcon />
+          </IconButton>
         </Box>
       </Box>
+
     </Box>
   );
 
@@ -431,7 +350,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           },
         }}
       >
-        <MenuItem onClick={() => navigate('/profile')}>
+        <MenuItem onClick={() => navigate('/admin/profile')}>
           <AccountCircleIcon sx={{ mr: 1 }} />
           Hồ sơ cá nhân
         </MenuItem>

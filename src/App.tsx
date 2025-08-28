@@ -29,9 +29,7 @@ import {
   UserManagement,
   ExpertManagement,
   SurveyManagement,
-  SystemSettings,
 } from './pages/admin';
-import AdminDemo from './pages/admin/AdminDemo';
 
 function App() {
   return (
@@ -111,14 +109,7 @@ function App() {
             </RoleBasedRoute>
           }
         />
-        <Route
-          path="/admin/demo"
-          element={
-            <ProtectedAdminRoute>
-              <AdminDemo />
-            </ProtectedAdminRoute>
-          }
-        />
+
         <Route
           path="/admin/users"
           element={
@@ -143,14 +134,7 @@ function App() {
             </RoleBasedRoute>
           }
         />
-        <Route
-          path="/admin/settings"
-          element={
-            <RoleBasedRoute allowedRoles={['ADMIN']}>
-              <SystemSettings />
-            </RoleBasedRoute>
-          }
-        />
+
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

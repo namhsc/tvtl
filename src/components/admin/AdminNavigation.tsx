@@ -54,24 +54,14 @@ const AdminNavigation: React.FC<AdminNavigationProps> = ({
       path: '/admin/users',
       description: 'Quản lý tài khoản người dùng',
     },
-    {
-      title: 'Quản Lý Chuyên Gia',
-      icon: <SchoolIcon />,
-      path: '/admin/experts',
-      description: 'Quản lý chuyên gia tư vấn',
-    },
+
     {
       title: 'Quản Lý Khảo Sát',
       icon: <AssessmentIcon />,
       path: '/admin/surveys',
       description: 'Quản lý khảo sát và đánh giá',
     },
-    {
-      title: 'Cài Đặt Hệ Thống',
-      icon: <SettingsIcon />,
-      path: '/admin/settings',
-      description: 'Cấu hình hệ thống',
-    },
+
   ];
 
   const handleNavigation = (path: string) => {
