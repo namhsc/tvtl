@@ -60,18 +60,10 @@ const Login: React.FC = () => {
       const from = location.state?.from?.pathname;
 
       if (response?.success) {
-<<<<<<< HEAD
-        if (response?.data?.user?.roles.includes('ADMIN')) {
-          navigate('/admin');
-          return;
-        }
-        if (response?.data?.completed === false) {
-=======
         if (
           response?.data?.completed === false &&
           !response?.data?.user?.roles.includes('ADMIN')
         ) {
->>>>>>> f717baaa4be23e0c7a3206f9034c0913d4b47150
           const message =
             'Vui lòng hoàn thiện thông tin cá nhân để tiếp tục sử dụng dịch vụ';
           toastService.info(message);
