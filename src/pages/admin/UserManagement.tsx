@@ -65,7 +65,7 @@ const UserManagement: React.FC = () => {
   const loadUsers = async () => {
     try {
       setState(prev => ({ ...prev, loading: true }));
-      
+
       const response = await apiUser.getUserList(
         state.page,
         state.rowsPerPage,
@@ -195,15 +195,15 @@ const UserManagement: React.FC = () => {
   return (
     <AdminLayout>
       <Box sx={{ p: 3 }}>
-        <UserManagementHeader 
+        <UserManagementHeader
           onRefresh={loadUsers}
           onImport={() => showSnackbar('Tính năng nhập dữ liệu đang được phát triển', 'info')}
           onExport={() => showSnackbar('Tính năng xuất dữ liệu đang được phát triển', 'info')}
           onAddUser={handleAddUser}
           loading={state.loading}
         />
-        
-        <UserStatisticsCards 
+
+        <UserStatisticsCards
           countsByRole={getCountsByRole()}
           totalUsers={state.totalElements}
         />
