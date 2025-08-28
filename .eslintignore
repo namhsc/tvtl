@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Production build
+build/
+dist/
+
+# Environment variables
+.env*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage directory
+coverage/
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Public assets
+public/
+
+# Generated files
+*.d.ts 

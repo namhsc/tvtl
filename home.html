@@ -1,0 +1,4295 @@
+<html lang="vi">
+  <script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script>
+  <script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindCare - Tư vấn tâm lý chuyên nghiệp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-gradient::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          repeat;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      }
+
+      .service-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .service-card:hover::before {
+        left: 100%;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      .expert-card {
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .expert-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .expert-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .expert-card:hover::after {
+        opacity: 1;
+      }
+
+      .pulse-animation {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+        }
+      }
+
+      .floating-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .shape {
+        position: absolute;
+        opacity: 0.1;
+        animation: float-shapes 15s infinite linear;
+      }
+
+      @keyframes float-shapes {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+        }
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+      }
+    </style>
+    <style>
+      *,
+      ::before,
+      ::after {
+        --tw-border-spacing-x: 0;
+        --tw-border-spacing-y: 0;
+        --tw-translate-x: 0;
+        --tw-translate-y: 0;
+        --tw-rotate: 0;
+        --tw-skew-x: 0;
+        --tw-skew-y: 0;
+        --tw-scale-x: 1;
+        --tw-scale-y: 1;
+        --tw-pan-x: ;
+        --tw-pan-y: ;
+        --tw-pinch-zoom: ;
+        --tw-scroll-snap-strictness: proximity;
+        --tw-gradient-from-position: ;
+        --tw-gradient-via-position: ;
+        --tw-gradient-to-position: ;
+        --tw-ordinal: ;
+        --tw-slashed-zero: ;
+        --tw-numeric-figure: ;
+        --tw-numeric-spacing: ;
+        --tw-numeric-fraction: ;
+        --tw-ring-inset: ;
+        --tw-ring-offset-width: 0px;
+        --tw-ring-offset-color: #fff;
+        --tw-ring-color: rgb(59 130 246 / 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+        --tw-blur: ;
+        --tw-brightness: ;
+        --tw-contrast: ;
+        --tw-grayscale: ;
+        --tw-hue-rotate: ;
+        --tw-invert: ;
+        --tw-saturate: ;
+        --tw-sepia: ;
+        --tw-drop-shadow: ;
+        --tw-backdrop-blur: ;
+        --tw-backdrop-brightness: ;
+        --tw-backdrop-contrast: ;
+        --tw-backdrop-grayscale: ;
+        --tw-backdrop-hue-rotate: ;
+        --tw-backdrop-invert: ;
+        --tw-backdrop-opacity: ;
+        --tw-backdrop-saturate: ;
+        --tw-backdrop-sepia: ;
+        --tw-contain-size: ;
+        --tw-contain-layout: ;
+        --tw-contain-paint: ;
+        --tw-contain-style: ;
+      }
+      ::backdrop {
+        --tw-border-spacing-x: 0;
+        --tw-border-spacing-y: 0;
+        --tw-translate-x: 0;
+        --tw-translate-y: 0;
+        --tw-rotate: 0;
+        --tw-skew-x: 0;
+        --tw-skew-y: 0;
+        --tw-scale-x: 1;
+        --tw-scale-y: 1;
+        --tw-pan-x: ;
+        --tw-pan-y: ;
+        --tw-pinch-zoom: ;
+        --tw-scroll-snap-strictness: proximity;
+        --tw-gradient-from-position: ;
+        --tw-gradient-via-position: ;
+        --tw-gradient-to-position: ;
+        --tw-ordinal: ;
+        --tw-slashed-zero: ;
+        --tw-numeric-figure: ;
+        --tw-numeric-spacing: ;
+        --tw-numeric-fraction: ;
+        --tw-ring-inset: ;
+        --tw-ring-offset-width: 0px;
+        --tw-ring-offset-color: #fff;
+        --tw-ring-color: rgb(59 130 246 / 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+        --tw-blur: ;
+        --tw-brightness: ;
+        --tw-contrast: ;
+        --tw-grayscale: ;
+        --tw-hue-rotate: ;
+        --tw-invert: ;
+        --tw-saturate: ;
+        --tw-sepia: ;
+        --tw-drop-shadow: ;
+        --tw-backdrop-blur: ;
+        --tw-backdrop-brightness: ;
+        --tw-backdrop-contrast: ;
+        --tw-backdrop-grayscale: ;
+        --tw-backdrop-hue-rotate: ;
+        --tw-backdrop-invert: ;
+        --tw-backdrop-opacity: ;
+        --tw-backdrop-saturate: ;
+        --tw-backdrop-sepia: ;
+        --tw-contain-size: ;
+        --tw-contain-layout: ;
+        --tw-contain-paint: ;
+        --tw-contain-style: ;
+      } /* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+        border-width: 0;
+        border-style: solid;
+        border-color: #e5e7eb;
+      }
+      ::after,
+      ::before {
+        --tw-content: '';
+      }
+      :host,
+      html {
+        line-height: 1.5;
+        -webkit-text-size-adjust: 100%;
+        -moz-tab-size: 4;
+        tab-size: 4;
+        font-family:
+          ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+          'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-feature-settings: normal;
+        font-variation-settings: normal;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        margin: 0;
+        line-height: inherit;
+      }
+      hr {
+        height: 0;
+        color: inherit;
+        border-top-width: 1px;
+      }
+      abbr:where([title]) {
+        -webkit-text-decoration: underline dotted;
+        text-decoration: underline dotted;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: inherit;
+        font-weight: inherit;
+      }
+      a {
+        color: inherit;
+        text-decoration: inherit;
+      }
+      b,
+      strong {
+        font-weight: bolder;
+      }
+      code,
+      kbd,
+      pre,
+      samp {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          'Liberation Mono', 'Courier New', monospace;
+        font-feature-settings: normal;
+        font-variation-settings: normal;
+        font-size: 1em;
+      }
+      small {
+        font-size: 80%;
+      }
+      sub,
+      sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+      }
+      sub {
+        bottom: -0.25em;
+      }
+      sup {
+        top: -0.5em;
+      }
+      table {
+        text-indent: 0;
+        border-color: inherit;
+        border-collapse: collapse;
+      }
+      button,
+      input,
+      optgroup,
+      select,
+      textarea {
+        font-family: inherit;
+        font-feature-settings: inherit;
+        font-variation-settings: inherit;
+        font-size: 100%;
+        font-weight: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        color: inherit;
+        margin: 0;
+        padding: 0;
+      }
+      button,
+      select {
+        text-transform: none;
+      }
+      button,
+      input:where([type='button']),
+      input:where([type='reset']),
+      input:where([type='submit']) {
+        -webkit-appearance: button;
+        background-color: transparent;
+        background-image: none;
+      }
+      :-moz-focusring {
+        outline: auto;
+      }
+      :-moz-ui-invalid {
+        box-shadow: none;
+      }
+      progress {
+        vertical-align: baseline;
+      }
+      ::-webkit-inner-spin-button,
+      ::-webkit-outer-spin-button {
+        height: auto;
+      }
+      [type='search'] {
+        -webkit-appearance: textfield;
+        outline-offset: -2px;
+      }
+      ::-webkit-search-decoration {
+        -webkit-appearance: none;
+      }
+      ::-webkit-file-upload-button {
+        -webkit-appearance: button;
+        font: inherit;
+      }
+      summary {
+        display: list-item;
+      }
+      blockquote,
+      dd,
+      dl,
+      figure,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      hr,
+      p,
+      pre {
+        margin: 0;
+      }
+      fieldset {
+        margin: 0;
+        padding: 0;
+      }
+      legend {
+        padding: 0;
+      }
+      menu,
+      ol,
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      dialog {
+        padding: 0;
+      }
+      textarea {
+        resize: vertical;
+      }
+      input::placeholder,
+      textarea::placeholder {
+        opacity: 1;
+        color: #9ca3af;
+      }
+      [role='button'],
+      button {
+        cursor: pointer;
+      }
+      :disabled {
+        cursor: default;
+      }
+      audio,
+      canvas,
+      embed,
+      iframe,
+      img,
+      object,
+      svg,
+      video {
+        display: block;
+        vertical-align: middle;
+      }
+      img,
+      video {
+        max-width: 100%;
+        height: auto;
+      }
+      [hidden]:where(:not([hidden='until-found'])) {
+        display: none;
+      }
+      .pointer-events-none {
+        pointer-events: none;
+      }
+      .fixed {
+        position: fixed;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .relative {
+        position: relative;
+      }
+      .sticky {
+        position: sticky;
+      }
+      .inset-0 {
+        inset: 0px;
+      }
+      .-bottom-2 {
+        bottom: -0.5rem;
+      }
+      .-right-2 {
+        right: -0.5rem;
+      }
+      .top-0 {
+        top: 0px;
+      }
+      .z-10 {
+        z-index: 10;
+      }
+      .z-50 {
+        z-index: 50;
+      }
+      .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .mb-12 {
+        margin-bottom: 3rem;
+      }
+      .mb-2 {
+        margin-bottom: 0.5rem;
+      }
+      .mb-20 {
+        margin-bottom: 5rem;
+      }
+      .mb-3 {
+        margin-bottom: 0.75rem;
+      }
+      .mb-4 {
+        margin-bottom: 1rem;
+      }
+      .mb-6 {
+        margin-bottom: 1.5rem;
+      }
+      .mb-8 {
+        margin-bottom: 2rem;
+      }
+      .ml-10 {
+        margin-left: 2.5rem;
+      }
+      .ml-2 {
+        margin-left: 0.5rem;
+      }
+      .mr-3 {
+        margin-right: 0.75rem;
+      }
+      .mr-4 {
+        margin-right: 1rem;
+      }
+      .mr-6 {
+        margin-right: 1.5rem;
+      }
+      .mt-12 {
+        margin-top: 3rem;
+      }
+      .mt-16 {
+        margin-top: 4rem;
+      }
+      .mt-6 {
+        margin-top: 1.5rem;
+      }
+      .block {
+        display: block;
+      }
+      .inline-block {
+        display: inline-block;
+      }
+      .flex {
+        display: flex;
+      }
+      .grid {
+        display: grid;
+      }
+      .hidden {
+        display: none;
+      }
+      .h-12 {
+        height: 3rem;
+      }
+      .h-14 {
+        height: 3.5rem;
+      }
+      .h-16 {
+        height: 4rem;
+      }
+      .h-20 {
+        height: 5rem;
+      }
+      .h-32 {
+        height: 8rem;
+      }
+      .h-6 {
+        height: 1.5rem;
+      }
+      .h-8 {
+        height: 2rem;
+      }
+      .w-12 {
+        width: 3rem;
+      }
+      .w-14 {
+        width: 3.5rem;
+      }
+      .w-16 {
+        width: 4rem;
+      }
+      .w-20 {
+        width: 5rem;
+      }
+      .w-32 {
+        width: 8rem;
+      }
+      .w-6 {
+        width: 1.5rem;
+      }
+      .w-8 {
+        width: 2rem;
+      }
+      .w-full {
+        width: 100%;
+      }
+      .max-w-2xl {
+        max-width: 42rem;
+      }
+      .max-w-3xl {
+        max-width: 48rem;
+      }
+      .max-w-4xl {
+        max-width: 56rem;
+      }
+      .max-w-6xl {
+        max-width: 72rem;
+      }
+      .max-w-7xl {
+        max-width: 80rem;
+      }
+      .flex-shrink-0 {
+        flex-shrink: 0;
+      }
+      .cursor-pointer {
+        cursor: pointer;
+      }
+      .grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .flex-wrap {
+        flex-wrap: wrap;
+      }
+      .items-start {
+        align-items: flex-start;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .items-baseline {
+        align-items: baseline;
+      }
+      .justify-center {
+        justify-content: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .gap-10 {
+        gap: 2.5rem;
+      }
+      .gap-12 {
+        gap: 3rem;
+      }
+      .gap-16 {
+        gap: 4rem;
+      }
+      .gap-2 {
+        gap: 0.5rem;
+      }
+      .gap-6 {
+        gap: 1.5rem;
+      }
+      .gap-8 {
+        gap: 2rem;
+      }
+      .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1rem * var(--tw-space-x-reverse));
+        margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+      .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+        margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+      .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(2rem * var(--tw-space-x-reverse));
+        margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+      .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+      }
+      .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+      }
+      .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+      }
+      .overflow-hidden {
+        overflow: hidden;
+      }
+      .rounded-2xl {
+        border-radius: 1rem;
+      }
+      .rounded-3xl {
+        border-radius: 1.5rem;
+      }
+      .rounded-full {
+        border-radius: 9999px;
+      }
+      .rounded-lg {
+        border-radius: 0.5rem;
+      }
+      .rounded-xl {
+        border-radius: 0.75rem;
+      }
+      .border {
+        border-width: 1px;
+      }
+      .border-4 {
+        border-width: 4px;
+      }
+      .border-b-0 {
+        border-bottom-width: 0px;
+      }
+      .border-t {
+        border-top-width: 1px;
+      }
+      .border-amber-200 {
+        --tw-border-opacity: 1;
+        border-color: rgb(253 230 138 / var(--tw-border-opacity, 1));
+      }
+      .border-blue-100 {
+        --tw-border-opacity: 1;
+        border-color: rgb(219 234 254 / var(--tw-border-opacity, 1));
+      }
+      .border-gray-200 {
+        --tw-border-opacity: 1;
+        border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+      }
+      .border-gray-700 {
+        --tw-border-opacity: 1;
+        border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
+      }
+      .border-green-100 {
+        --tw-border-opacity: 1;
+        border-color: rgb(220 252 231 / var(--tw-border-opacity, 1));
+      }
+      .border-pink-100 {
+        --tw-border-opacity: 1;
+        border-color: rgb(252 231 243 / var(--tw-border-opacity, 1));
+      }
+      .border-purple-100 {
+        --tw-border-opacity: 1;
+        border-color: rgb(243 232 255 / var(--tw-border-opacity, 1));
+      }
+      .border-white {
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+      }
+      .bg-gray-50 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+      }
+      .bg-amber-50 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(255 251 235 / var(--tw-bg-opacity, 1));
+      }
+      .bg-blue-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
+      }
+      .bg-blue-300 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(147 197 253 / var(--tw-bg-opacity, 1));
+      }
+      .bg-blue-400 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(96 165 250 / var(--tw-bg-opacity, 1));
+      }
+      .bg-blue-600 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+      }
+      .bg-gray-900 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
+      }
+      .bg-green-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
+      }
+      .bg-green-500 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+      }
+      .bg-indigo-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(224 231 255 / var(--tw-bg-opacity, 1));
+      }
+      .bg-indigo-300 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(165 180 252 / var(--tw-bg-opacity, 1));
+      }
+      .bg-pink-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(252 231 243 / var(--tw-bg-opacity, 1));
+      }
+      .bg-pink-300 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(249 168 212 / var(--tw-bg-opacity, 1));
+      }
+      .bg-pink-600 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(219 39 119 / var(--tw-bg-opacity, 1));
+      }
+      .bg-purple-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(243 232 255 / var(--tw-bg-opacity, 1));
+      }
+      .bg-purple-300 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(216 180 254 / var(--tw-bg-opacity, 1));
+      }
+      .bg-red-600 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+      }
+      .bg-white {
+        --tw-bg-opacity: 1;
+        background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+      }
+      .bg-white\/20 {
+        background-color: rgb(255 255 255 / 0.2);
+      }
+      .bg-white\/95 {
+        background-color: rgb(255 255 255 / 0.95);
+      }
+      .bg-yellow-100 {
+        --tw-bg-opacity: 1;
+        background-color: rgb(254 249 195 / var(--tw-bg-opacity, 1));
+      }
+      .bg-gradient-to-br {
+        background-image: linear-gradient(
+          to bottom right,
+          var(--tw-gradient-stops)
+        );
+      }
+      .bg-gradient-to-r {
+        background-image: linear-gradient(to right, var(--tw-gradient-stops));
+      }
+      .from-blue-50 {
+        --tw-gradient-from: #eff6ff var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(239 246 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-blue-500 {
+        --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(59 130 246 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-gray-50 {
+        --tw-gradient-from: #f9fafb var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(249 250 251 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-gray-900 {
+        --tw-gradient-from: #111827 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(17 24 39 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-green-50 {
+        --tw-gradient-from: #f0fdf4 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(240 253 244 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-green-500 {
+        --tw-gradient-from: #22c55e var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(34 197 94 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-indigo-50 {
+        --tw-gradient-from: #eef2ff var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(238 242 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-indigo-500 {
+        --tw-gradient-from: #6366f1 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(99 102 241 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-orange-500 {
+        --tw-gradient-from: #f97316 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(249 115 22 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-pink-50 {
+        --tw-gradient-from: #fdf2f8 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(253 242 248 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-pink-500 {
+        --tw-gradient-from: #ec4899 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(236 72 153 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-purple-50 {
+        --tw-gradient-from: #faf5ff var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(250 245 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .from-purple-500 {
+        --tw-gradient-from: #a855f7 var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(168 85 247 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      }
+      .via-emerald-50 {
+        --tw-gradient-to: rgb(236 253 245 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #ecfdf5 var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .via-indigo-50 {
+        --tw-gradient-to: rgb(238 242 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #eef2ff var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .via-indigo-900 {
+        --tw-gradient-to: rgb(49 46 129 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #312e81 var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .via-purple-50 {
+        --tw-gradient-to: rgb(250 245 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #faf5ff var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .via-rose-50 {
+        --tw-gradient-to: rgb(255 241 242 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #fff1f2 var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .via-violet-50 {
+        --tw-gradient-to: rgb(245 243 255 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops:
+          var(--tw-gradient-from), #f5f3ff var(--tw-gradient-via-position),
+          var(--tw-gradient-to);
+      }
+      .to-blue-50 {
+        --tw-gradient-to: #eff6ff var(--tw-gradient-to-position);
+      }
+      .to-cyan-600 {
+        --tw-gradient-to: #0891b2 var(--tw-gradient-to-position);
+      }
+      .to-emerald-600 {
+        --tw-gradient-to: #059669 var(--tw-gradient-to-position);
+      }
+      .to-indigo-50 {
+        --tw-gradient-to: #eef2ff var(--tw-gradient-to-position);
+      }
+      .to-indigo-600 {
+        --tw-gradient-to: #4f46e5 var(--tw-gradient-to-position);
+      }
+      .to-pink-50 {
+        --tw-gradient-to: #fdf2f8 var(--tw-gradient-to-position);
+      }
+      .to-pink-500 {
+        --tw-gradient-to: #ec4899 var(--tw-gradient-to-position);
+      }
+      .to-pink-600 {
+        --tw-gradient-to: #db2777 var(--tw-gradient-to-position);
+      }
+      .to-purple-50 {
+        --tw-gradient-to: #faf5ff var(--tw-gradient-to-position);
+      }
+      .to-purple-600 {
+        --tw-gradient-to: #9333ea var(--tw-gradient-to-position);
+      }
+      .to-purple-900 {
+        --tw-gradient-to: #581c87 var(--tw-gradient-to-position);
+      }
+      .to-red-50 {
+        --tw-gradient-to: #fef2f2 var(--tw-gradient-to-position);
+      }
+      .to-red-600 {
+        --tw-gradient-to: #dc2626 var(--tw-gradient-to-position);
+      }
+      .to-rose-600 {
+        --tw-gradient-to: #e11d48 var(--tw-gradient-to-position);
+      }
+      .to-teal-50 {
+        --tw-gradient-to: #f0fdfa var(--tw-gradient-to-position);
+      }
+      .to-violet-600 {
+        --tw-gradient-to: #7c3aed var(--tw-gradient-to-position);
+      }
+      .p-10 {
+        padding: 2.5rem;
+      }
+      .p-2 {
+        padding: 0.5rem;
+      }
+      .p-4 {
+        padding: 1rem;
+      }
+      .p-8 {
+        padding: 2rem;
+      }
+      .px-10 {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+      }
+      .px-3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+      .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .px-6 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+      .py-1 {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+      }
+      .py-16 {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+      .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      .py-24 {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+      }
+      .py-3 {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
+      .py-32 {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+      }
+      .py-4 {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+      .pb-6 {
+        padding-bottom: 1.5rem;
+      }
+      .pt-4 {
+        padding-top: 1rem;
+      }
+      .pt-8 {
+        padding-top: 2rem;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+      .text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+      }
+      .text-4xl {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+      }
+      .text-5xl {
+        font-size: 3rem;
+        line-height: 1;
+      }
+      .text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+      .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+      .text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+      }
+      .text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+      }
+      .font-bold {
+        font-weight: 700;
+      }
+      .font-medium {
+        font-weight: 500;
+      }
+      .font-semibold {
+        font-weight: 600;
+      }
+      .leading-relaxed {
+        line-height: 1.625;
+      }
+      .leading-tight {
+        line-height: 1.25;
+      }
+      .text-amber-800 {
+        --tw-text-opacity: 1;
+        color: rgb(146 64 14 / var(--tw-text-opacity, 1));
+      }
+      .text-blue-600 {
+        --tw-text-opacity: 1;
+        color: rgb(37 99 235 / var(--tw-text-opacity, 1));
+      }
+      .text-blue-700 {
+        --tw-text-opacity: 1;
+        color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+      }
+      .text-gray-300 {
+        --tw-text-opacity: 1;
+        color: rgb(209 213 219 / var(--tw-text-opacity, 1));
+      }
+      .text-gray-400 {
+        --tw-text-opacity: 1;
+        color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+      }
+      .text-gray-600 {
+        --tw-text-opacity: 1;
+        color: rgb(75 85 99 / var(--tw-text-opacity, 1));
+      }
+      .text-gray-700 {
+        --tw-text-opacity: 1;
+        color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+      }
+      .text-gray-900 {
+        --tw-text-opacity: 1;
+        color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+      }
+      .text-green-600 {
+        --tw-text-opacity: 1;
+        color: rgb(22 163 74 / var(--tw-text-opacity, 1));
+      }
+      .text-green-700 {
+        --tw-text-opacity: 1;
+        color: rgb(21 128 61 / var(--tw-text-opacity, 1));
+      }
+      .text-indigo-600 {
+        --tw-text-opacity: 1;
+        color: rgb(79 70 229 / var(--tw-text-opacity, 1));
+      }
+      .text-pink-600 {
+        --tw-text-opacity: 1;
+        color: rgb(219 39 119 / var(--tw-text-opacity, 1));
+      }
+      .text-pink-700 {
+        --tw-text-opacity: 1;
+        color: rgb(190 24 93 / var(--tw-text-opacity, 1));
+      }
+      .text-purple-600 {
+        --tw-text-opacity: 1;
+        color: rgb(147 51 234 / var(--tw-text-opacity, 1));
+      }
+      .text-purple-700 {
+        --tw-text-opacity: 1;
+        color: rgb(126 34 206 / var(--tw-text-opacity, 1));
+      }
+      .text-white {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+      }
+      .text-yellow-300 {
+        --tw-text-opacity: 1;
+        color: rgb(253 224 71 / var(--tw-text-opacity, 1));
+      }
+      .text-yellow-400 {
+        --tw-text-opacity: 1;
+        color: rgb(250 204 21 / var(--tw-text-opacity, 1));
+      }
+      .text-yellow-700 {
+        --tw-text-opacity: 1;
+        color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+      }
+      .opacity-50 {
+        opacity: 0.5;
+      }
+      .opacity-80 {
+        opacity: 0.8;
+      }
+      .opacity-90 {
+        opacity: 0.9;
+      }
+      .shadow-2xl {
+        --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow, 0 0 #0000),
+          var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      }
+      .backdrop-blur-lg {
+        --tw-backdrop-blur: blur(16px);
+        -webkit-backdrop-filter: var(--tw-backdrop-blur)
+          var(--tw-backdrop-brightness) var(--tw-backdrop-contrast)
+          var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate)
+          var(--tw-backdrop-invert) var(--tw-backdrop-opacity)
+          var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+        backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness)
+          var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale)
+          var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert)
+          var(--tw-backdrop-opacity) var(--tw-backdrop-saturate)
+          var(--tw-backdrop-sepia);
+      }
+      .transition-all {
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+      }
+      .transition-colors {
+        transition-property:
+          color,
+          background-color,
+          border-color,
+          fill,
+          stroke,
+          -webkit-text-decoration-color;
+        transition-property:
+          color, background-color, border-color, text-decoration-color, fill,
+          stroke;
+        transition-property:
+          color,
+          background-color,
+          border-color,
+          text-decoration-color,
+          fill,
+          stroke,
+          -webkit-text-decoration-color;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+      }
+      .duration-300 {
+        transition-duration: 300ms;
+      }
+      .hover\:translate-x-1:hover {
+        --tw-translate-x: 0.25rem;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+          rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+          skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+          scaleY(var(--tw-scale-y));
+      }
+      .hover\:bg-blue-500:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-blue-700:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-pink-700:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(190 24 93 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-purple-50:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(250 245 255 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-red-700:hover {
+        --tw-bg-opacity: 1;
+        background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
+      }
+      .hover\:bg-white\/30:hover {
+        background-color: rgb(255 255 255 / 0.3);
+      }
+      .hover\:text-blue-800:hover {
+        --tw-text-opacity: 1;
+        color: rgb(30 64 175 / var(--tw-text-opacity, 1));
+      }
+      .hover\:text-green-800:hover {
+        --tw-text-opacity: 1;
+        color: rgb(22 101 52 / var(--tw-text-opacity, 1));
+      }
+      .hover\:text-pink-800:hover {
+        --tw-text-opacity: 1;
+        color: rgb(157 23 77 / var(--tw-text-opacity, 1));
+      }
+      .hover\:text-purple-600:hover {
+        --tw-text-opacity: 1;
+        color: rgb(147 51 234 / var(--tw-text-opacity, 1));
+      }
+      .hover\:text-purple-800:hover {
+        --tw-text-opacity: 1;
+        color: rgb(107 33 168 / var(--tw-text-opacity, 1));
+      }
+      .hover\:text-white:hover {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+      }
+      .hover\:shadow-2xl:hover {
+        --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow, 0 0 #0000),
+          var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      }
+      .hover\:shadow-lg:hover {
+        --tw-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --tw-shadow-colored:
+          0 10px 15px -3px var(--tw-shadow-color),
+          0 4px 6px -4px var(--tw-shadow-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow, 0 0 #0000),
+          var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      }
+      .focus\:border-indigo-500:focus {
+        --tw-border-opacity: 1;
+        border-color: rgb(99 102 241 / var(--tw-border-opacity, 1));
+      }
+      .focus\:ring-2:focus {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+          var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+          calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        box-shadow:
+          var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+          var(--tw-shadow, 0 0 #0000);
+      }
+      .focus\:ring-indigo-500:focus {
+        --tw-ring-opacity: 1;
+        --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity, 1));
+      }
+      @media (min-width: 640px) {
+        .sm\:flex-row {
+          flex-direction: row;
+        }
+        .sm\:px-6 {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .md\:col-span-2 {
+          grid-column: span 2 / span 2;
+        }
+        .md\:mb-0 {
+          margin-bottom: 0px;
+        }
+        .md\:block {
+          display: block;
+        }
+        .md\:hidden {
+          display: none;
+        }
+        .md\:grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .md\:grid-cols-3 {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .md\:grid-cols-4 {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .md\:flex-row {
+          flex-direction: row;
+        }
+        .md\:text-2xl {
+          font-size: 1.5rem;
+          line-height: 2rem;
+        }
+        .md\:text-5xl {
+          font-size: 3rem;
+          line-height: 1;
+        }
+        .md\:text-7xl {
+          font-size: 4.5rem;
+          line-height: 1;
+        }
+      }
+      @media (min-width: 1024px) {
+        .lg\:grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .lg\:grid-cols-4 {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+        .lg\:px-8 {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+    </style>
+    <style type="text/css">
+      .__react_component_tooltip {
+        border-radius: 3px;
+        display: inline-block;
+        font-size: 13px;
+        left: -999em;
+        opacity: 0;
+        padding: 8px 21px;
+        position: fixed;
+        pointer-events: none;
+        transition: opacity 0.3s ease-out;
+        top: -999em;
+        visibility: hidden;
+        z-index: 999;
+      }
+      .__react_component_tooltip.allow_hover,
+      .__react_component_tooltip.allow_click {
+        pointer-events: auto;
+      }
+      .__react_component_tooltip:before,
+      .__react_component_tooltip:after {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+      }
+      .__react_component_tooltip.show {
+        opacity: 0.9;
+        margin-top: 0px;
+        margin-left: 0px;
+        visibility: visible;
+      }
+      .__react_component_tooltip.type-dark {
+        color: #fff;
+        background-color: #222;
+      }
+      .__react_component_tooltip.type-dark.place-top:after {
+        border-top-color: #222;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-dark.place-bottom:after {
+        border-bottom-color: #222;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-dark.place-left:after {
+        border-left-color: #222;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-dark.place-right:after {
+        border-right-color: #222;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-dark.border {
+        border: 1px solid #fff;
+      }
+      .__react_component_tooltip.type-dark.border.place-top:before {
+        border-top: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-dark.border.place-bottom:before {
+        border-bottom: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-dark.border.place-left:before {
+        border-left: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-dark.border.place-right:before {
+        border-right: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-success {
+        color: #fff;
+        background-color: #8dc572;
+      }
+      .__react_component_tooltip.type-success.place-top:after {
+        border-top-color: #8dc572;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-success.place-bottom:after {
+        border-bottom-color: #8dc572;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-success.place-left:after {
+        border-left-color: #8dc572;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-success.place-right:after {
+        border-right-color: #8dc572;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-success.border {
+        border: 1px solid #fff;
+      }
+      .__react_component_tooltip.type-success.border.place-top:before {
+        border-top: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-success.border.place-bottom:before {
+        border-bottom: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-success.border.place-left:before {
+        border-left: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-success.border.place-right:before {
+        border-right: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-warning {
+        color: #fff;
+        background-color: #f0ad4e;
+      }
+      .__react_component_tooltip.type-warning.place-top:after {
+        border-top-color: #f0ad4e;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-warning.place-bottom:after {
+        border-bottom-color: #f0ad4e;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-warning.place-left:after {
+        border-left-color: #f0ad4e;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-warning.place-right:after {
+        border-right-color: #f0ad4e;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-warning.border {
+        border: 1px solid #fff;
+      }
+      .__react_component_tooltip.type-warning.border.place-top:before {
+        border-top: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-warning.border.place-bottom:before {
+        border-bottom: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-warning.border.place-left:before {
+        border-left: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-warning.border.place-right:before {
+        border-right: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-error {
+        color: #fff;
+        background-color: #be6464;
+      }
+      .__react_component_tooltip.type-error.place-top:after {
+        border-top-color: #be6464;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-error.place-bottom:after {
+        border-bottom-color: #be6464;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-error.place-left:after {
+        border-left-color: #be6464;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-error.place-right:after {
+        border-right-color: #be6464;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-error.border {
+        border: 1px solid #fff;
+      }
+      .__react_component_tooltip.type-error.border.place-top:before {
+        border-top: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-error.border.place-bottom:before {
+        border-bottom: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-error.border.place-left:before {
+        border-left: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-error.border.place-right:before {
+        border-right: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-info {
+        color: #fff;
+        background-color: #337ab7;
+      }
+      .__react_component_tooltip.type-info.place-top:after {
+        border-top-color: #337ab7;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-info.place-bottom:after {
+        border-bottom-color: #337ab7;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-info.place-left:after {
+        border-left-color: #337ab7;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-info.place-right:after {
+        border-right-color: #337ab7;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-info.border {
+        border: 1px solid #fff;
+      }
+      .__react_component_tooltip.type-info.border.place-top:before {
+        border-top: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-info.border.place-bottom:before {
+        border-bottom: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-info.border.place-left:before {
+        border-left: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-info.border.place-right:before {
+        border-right: 8px solid #fff;
+      }
+      .__react_component_tooltip.type-light {
+        color: #222;
+        background-color: #fff;
+      }
+      .__react_component_tooltip.type-light.place-top:after {
+        border-top-color: #fff;
+        border-top-style: solid;
+        border-top-width: 6px;
+      }
+      .__react_component_tooltip.type-light.place-bottom:after {
+        border-bottom-color: #fff;
+        border-bottom-style: solid;
+        border-bottom-width: 6px;
+      }
+      .__react_component_tooltip.type-light.place-left:after {
+        border-left-color: #fff;
+        border-left-style: solid;
+        border-left-width: 6px;
+      }
+      .__react_component_tooltip.type-light.place-right:after {
+        border-right-color: #fff;
+        border-right-style: solid;
+        border-right-width: 6px;
+      }
+      .__react_component_tooltip.type-light.border {
+        border: 1px solid #222;
+      }
+      .__react_component_tooltip.type-light.border.place-top:before {
+        border-top: 8px solid #222;
+      }
+      .__react_component_tooltip.type-light.border.place-bottom:before {
+        border-bottom: 8px solid #222;
+      }
+      .__react_component_tooltip.type-light.border.place-left:before {
+        border-left: 8px solid #222;
+      }
+      .__react_component_tooltip.type-light.border.place-right:before {
+        border-right: 8px solid #222;
+      }
+      .__react_component_tooltip.place-top {
+        margin-top: -10px;
+      }
+      .__react_component_tooltip.place-top:before {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        bottom: -8px;
+        left: 50%;
+        margin-left: -10px;
+      }
+      .__react_component_tooltip.place-top:after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        bottom: -6px;
+        left: 50%;
+        margin-left: -8px;
+      }
+      .__react_component_tooltip.place-bottom {
+        margin-top: 10px;
+      }
+      .__react_component_tooltip.place-bottom:before {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        top: -8px;
+        left: 50%;
+        margin-left: -10px;
+      }
+      .__react_component_tooltip.place-bottom:after {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -6px;
+        left: 50%;
+        margin-left: -8px;
+      }
+      .__react_component_tooltip.place-left {
+        margin-left: -10px;
+      }
+      .__react_component_tooltip.place-left:before {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        right: -8px;
+        top: 50%;
+        margin-top: -5px;
+      }
+      .__react_component_tooltip.place-left:after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        right: -6px;
+        top: 50%;
+        margin-top: -4px;
+      }
+      .__react_component_tooltip.place-right {
+        margin-left: 10px;
+      }
+      .__react_component_tooltip.place-right:before {
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        left: -8px;
+        top: 50%;
+        margin-top: -5px;
+      }
+      .__react_component_tooltip.place-right:after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        left: -6px;
+        top: 50%;
+        margin-top: -4px;
+      }
+      .__react_component_tooltip .multi-line {
+        display: block;
+        padding: 2px 0px;
+        text-align: center;
+      }
+    </style>
+    <style>
+      .swal2-popup.swal2-toast {
+        box-sizing: border-box;
+        grid-column: 1/4 !important;
+        grid-row: 1/4 !important;
+        grid-template-columns: min-content auto min-content;
+        padding: 1em;
+        overflow-y: hidden;
+        background: #fff;
+        box-shadow:
+          0 0 1px rgba(0, 0, 0, 0.075),
+          0 1px 2px rgba(0, 0, 0, 0.075),
+          1px 2px 4px rgba(0, 0, 0, 0.075),
+          1px 3px 8px rgba(0, 0, 0, 0.075),
+          2px 4px 16px rgba(0, 0, 0, 0.075);
+        pointer-events: all;
+      }
+      .swal2-popup.swal2-toast > * {
+        grid-column: 2;
+      }
+      .swal2-popup.swal2-toast .swal2-title {
+        margin: 0.5em 1em;
+        padding: 0;
+        font-size: 1em;
+        text-align: initial;
+      }
+      .swal2-popup.swal2-toast .swal2-loading {
+        justify-content: center;
+      }
+      .swal2-popup.swal2-toast .swal2-input {
+        height: 2em;
+        margin: 0.5em;
+        font-size: 1em;
+      }
+      .swal2-popup.swal2-toast .swal2-validation-message {
+        font-size: 1em;
+      }
+      .swal2-popup.swal2-toast .swal2-footer {
+        margin: 0.5em 0 0;
+        padding: 0.5em 0 0;
+        font-size: 0.8em;
+      }
+      .swal2-popup.swal2-toast .swal2-close {
+        grid-column: 3/3;
+        grid-row: 1/99;
+        align-self: center;
+        width: 0.8em;
+        height: 0.8em;
+        margin: 0;
+        font-size: 2em;
+      }
+      .swal2-popup.swal2-toast .swal2-html-container {
+        margin: 0.5em 1em;
+        padding: 0;
+        overflow: initial;
+        font-size: 1em;
+        text-align: initial;
+      }
+      .swal2-popup.swal2-toast .swal2-html-container:empty {
+        padding: 0;
+      }
+      .swal2-popup.swal2-toast .swal2-loader {
+        grid-column: 1;
+        grid-row: 1/99;
+        align-self: center;
+        width: 2em;
+        height: 2em;
+        margin: 0.25em;
+      }
+      .swal2-popup.swal2-toast .swal2-icon {
+        grid-column: 1;
+        grid-row: 1/99;
+        align-self: center;
+        width: 2em;
+        min-width: 2em;
+        height: 2em;
+        margin: 0 0.5em 0 0;
+      }
+      .swal2-popup.swal2-toast .swal2-icon .swal2-icon-content {
+        display: flex;
+        align-items: center;
+        font-size: 1.8em;
+        font-weight: bold;
+      }
+      .swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring {
+        width: 2em;
+        height: 2em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-icon.swal2-error
+        [class^='swal2-x-mark-line'] {
+        top: 0.875em;
+        width: 1.375em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-icon.swal2-error
+        [class^='swal2-x-mark-line'][class$='left'] {
+        left: 0.3125em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-icon.swal2-error
+        [class^='swal2-x-mark-line'][class$='right'] {
+        right: 0.3125em;
+      }
+      .swal2-popup.swal2-toast .swal2-actions {
+        justify-content: flex-start;
+        height: auto;
+        margin: 0;
+        margin-top: 0.5em;
+        padding: 0 0.5em;
+      }
+      .swal2-popup.swal2-toast .swal2-styled {
+        margin: 0.25em 0.5em;
+        padding: 0.4em 0.6em;
+        font-size: 1em;
+      }
+      .swal2-popup.swal2-toast .swal2-success {
+        border-color: #a5dc86;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success
+        [class^='swal2-success-circular-line'] {
+        position: absolute;
+        width: 1.6em;
+        height: 3em;
+        border-radius: 50%;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success
+        [class^='swal2-success-circular-line'][class$='left'] {
+        top: -0.8em;
+        left: -0.5em;
+        transform: rotate(-45deg);
+        transform-origin: 2em 2em;
+        border-radius: 4em 0 0 4em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success
+        [class^='swal2-success-circular-line'][class$='right'] {
+        top: -0.25em;
+        left: 0.9375em;
+        transform-origin: 0 1.5em;
+        border-radius: 0 4em 4em 0;
+      }
+      .swal2-popup.swal2-toast .swal2-success .swal2-success-ring {
+        width: 2em;
+        height: 2em;
+      }
+      .swal2-popup.swal2-toast .swal2-success .swal2-success-fix {
+        top: 0;
+        left: 0.4375em;
+        width: 0.4375em;
+        height: 2.6875em;
+      }
+      .swal2-popup.swal2-toast .swal2-success [class^='swal2-success-line'] {
+        height: 0.3125em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success
+        [class^='swal2-success-line'][class$='tip'] {
+        top: 1.125em;
+        left: 0.1875em;
+        width: 0.75em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success
+        [class^='swal2-success-line'][class$='long'] {
+        top: 0.9375em;
+        right: 0.1875em;
+        width: 1.375em;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success.swal2-icon-show
+        .swal2-success-line-tip {
+        animation: swal2-toast-animate-success-line-tip 0.75s;
+      }
+      .swal2-popup.swal2-toast
+        .swal2-success.swal2-icon-show
+        .swal2-success-line-long {
+        animation: swal2-toast-animate-success-line-long 0.75s;
+      }
+      .swal2-popup.swal2-toast.swal2-show {
+        animation: swal2-toast-show 0.5s;
+      }
+      .swal2-popup.swal2-toast.swal2-hide {
+        animation: swal2-toast-hide 0.1s forwards;
+      }
+      div:where(.swal2-container) {
+        display: grid;
+        position: fixed;
+        z-index: 1060;
+        inset: 0;
+        box-sizing: border-box;
+        grid-template-areas: 'top-start     top            top-end' 'center-start  center         center-end' 'bottom-start  bottom-center  bottom-end';
+        grid-template-rows: minmax(min-content, auto) minmax(
+            min-content,
+            auto
+          ) minmax(min-content, auto);
+        height: 100%;
+        padding: 0.625em;
+        overflow-x: hidden;
+        transition: background-color 0.1s;
+        -webkit-overflow-scrolling: touch;
+      }
+      div:where(.swal2-container).swal2-backdrop-show,
+      div:where(.swal2-container).swal2-noanimation {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      div:where(.swal2-container).swal2-backdrop-hide {
+        background: rgba(0, 0, 0, 0) !important;
+      }
+      div:where(.swal2-container).swal2-top-start,
+      div:where(.swal2-container).swal2-center-start,
+      div:where(.swal2-container).swal2-bottom-start {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+      }
+      div:where(.swal2-container).swal2-top,
+      div:where(.swal2-container).swal2-center,
+      div:where(.swal2-container).swal2-bottom {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+      div:where(.swal2-container).swal2-top-end,
+      div:where(.swal2-container).swal2-center-end,
+      div:where(.swal2-container).swal2-bottom-end {
+        grid-template-columns: auto auto minmax(0, 1fr);
+      }
+      div:where(.swal2-container).swal2-top-start > .swal2-popup {
+        align-self: start;
+      }
+      div:where(.swal2-container).swal2-top > .swal2-popup {
+        grid-column: 2;
+        place-self: start center;
+      }
+      div:where(.swal2-container).swal2-top-end > .swal2-popup,
+      div:where(.swal2-container).swal2-top-right > .swal2-popup {
+        grid-column: 3;
+        place-self: start end;
+      }
+      div:where(.swal2-container).swal2-center-start > .swal2-popup,
+      div:where(.swal2-container).swal2-center-left > .swal2-popup {
+        grid-row: 2;
+        align-self: center;
+      }
+      div:where(.swal2-container).swal2-center > .swal2-popup {
+        grid-column: 2;
+        grid-row: 2;
+        place-self: center center;
+      }
+      div:where(.swal2-container).swal2-center-end > .swal2-popup,
+      div:where(.swal2-container).swal2-center-right > .swal2-popup {
+        grid-column: 3;
+        grid-row: 2;
+        place-self: center end;
+      }
+      div:where(.swal2-container).swal2-bottom-start > .swal2-popup,
+      div:where(.swal2-container).swal2-bottom-left > .swal2-popup {
+        grid-column: 1;
+        grid-row: 3;
+        align-self: end;
+      }
+      div:where(.swal2-container).swal2-bottom > .swal2-popup {
+        grid-column: 2;
+        grid-row: 3;
+        place-self: end center;
+      }
+      div:where(.swal2-container).swal2-bottom-end > .swal2-popup,
+      div:where(.swal2-container).swal2-bottom-right > .swal2-popup {
+        grid-column: 3;
+        grid-row: 3;
+        place-self: end end;
+      }
+      div:where(.swal2-container).swal2-grow-row > .swal2-popup,
+      div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {
+        grid-column: 1/4;
+        width: 100%;
+      }
+      div:where(.swal2-container).swal2-grow-column > .swal2-popup,
+      div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {
+        grid-row: 1/4;
+        align-self: stretch;
+      }
+      div:where(.swal2-container).swal2-no-transition {
+        transition: none !important;
+      }
+      div:where(.swal2-container) div:where(.swal2-popup) {
+        display: none;
+        position: relative;
+        box-sizing: border-box;
+        grid-template-columns: minmax(0, 100%);
+        width: 32em;
+        max-width: 100%;
+        padding: 0 0 1.25em;
+        border: none;
+        border-radius: 5px;
+        background: #fff;
+        color: #545454;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+      div:where(.swal2-container) div:where(.swal2-popup):focus {
+        outline: none;
+      }
+      div:where(.swal2-container) div:where(.swal2-popup).swal2-loading {
+        overflow-y: hidden;
+      }
+      div:where(.swal2-container) h2:where(.swal2-title) {
+        position: relative;
+        max-width: 100%;
+        margin: 0;
+        padding: 0.8em 1em 0;
+        color: inherit;
+        font-size: 1.875em;
+        font-weight: 600;
+        text-align: center;
+        text-transform: none;
+        word-wrap: break-word;
+      }
+      div:where(.swal2-container) div:where(.swal2-actions) {
+        display: flex;
+        z-index: 1;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        margin: 1.25em auto 0;
+        padding: 0;
+      }
+      div:where(.swal2-container)
+        div:where(.swal2-actions):not(.swal2-loading)
+        .swal2-styled[disabled] {
+        opacity: 0.4;
+      }
+      div:where(.swal2-container)
+        div:where(.swal2-actions):not(.swal2-loading)
+        .swal2-styled:hover {
+        background-image: linear-gradient(
+          rgba(0, 0, 0, 0.1),
+          rgba(0, 0, 0, 0.1)
+        );
+      }
+      div:where(.swal2-container)
+        div:where(.swal2-actions):not(.swal2-loading)
+        .swal2-styled:active {
+        background-image: linear-gradient(
+          rgba(0, 0, 0, 0.2),
+          rgba(0, 0, 0, 0.2)
+        );
+      }
+      div:where(.swal2-container) div:where(.swal2-loader) {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 2.2em;
+        height: 2.2em;
+        margin: 0 1.875em;
+        animation: swal2-rotate-loading 1.5s linear 0s infinite normal;
+        border-width: 0.25em;
+        border-style: solid;
+        border-radius: 100%;
+        border-color: #2778c4 rgba(0, 0, 0, 0) #2778c4 rgba(0, 0, 0, 0);
+      }
+      div:where(.swal2-container) button:where(.swal2-styled) {
+        margin: 0.3125em;
+        padding: 0.625em 1.1em;
+        transition: box-shadow 0.1s;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0);
+        font-weight: 500;
+      }
+      div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        cursor: pointer;
+      }
+      div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+        border: 0;
+        border-radius: 0.25em;
+        background: initial;
+        background-color: #7066e0;
+        color: #fff;
+        font-size: 1em;
+      }
+      div:where(.swal2-container)
+        button:where(.swal2-styled).swal2-confirm:focus {
+        box-shadow: 0 0 0 3px rgba(112, 102, 224, 0.5);
+      }
+      div:where(.swal2-container) button:where(.swal2-styled).swal2-deny {
+        border: 0;
+        border-radius: 0.25em;
+        background: initial;
+        background-color: #dc3741;
+        color: #fff;
+        font-size: 1em;
+      }
+      div:where(.swal2-container) button:where(.swal2-styled).swal2-deny:focus {
+        box-shadow: 0 0 0 3px rgba(220, 55, 65, 0.5);
+      }
+      div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
+        border: 0;
+        border-radius: 0.25em;
+        background: initial;
+        background-color: #6e7881;
+        color: #fff;
+        font-size: 1em;
+      }
+      div:where(.swal2-container)
+        button:where(.swal2-styled).swal2-cancel:focus {
+        box-shadow: 0 0 0 3px rgba(110, 120, 129, 0.5);
+      }
+      div:where(.swal2-container)
+        button:where(.swal2-styled).swal2-default-outline:focus {
+        box-shadow: 0 0 0 3px rgba(100, 150, 200, 0.5);
+      }
+      div:where(.swal2-container) button:where(.swal2-styled):focus {
+        outline: none;
+      }
+      div:where(.swal2-container)
+        button:where(.swal2-styled)::-moz-focus-inner {
+        border: 0;
+      }
+      div:where(.swal2-container) div:where(.swal2-footer) {
+        margin: 1em 0 0;
+        padding: 1em 1em 0;
+        border-top: 1px solid #eee;
+        color: inherit;
+        font-size: 1em;
+        text-align: center;
+      }
+      div:where(.swal2-container) .swal2-timer-progress-bar-container {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        grid-column: auto !important;
+        overflow: hidden;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+      div:where(.swal2-container) div:where(.swal2-timer-progress-bar) {
+        width: 100%;
+        height: 0.25em;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      div:where(.swal2-container) img:where(.swal2-image) {
+        max-width: 100%;
+        margin: 2em auto 1em;
+      }
+      div:where(.swal2-container) button:where(.swal2-close) {
+        z-index: 2;
+        align-items: center;
+        justify-content: center;
+        width: 1.2em;
+        height: 1.2em;
+        margin-top: 0;
+        margin-right: 0;
+        margin-bottom: -1.2em;
+        padding: 0;
+        overflow: hidden;
+        transition:
+          color 0.1s,
+          box-shadow 0.1s;
+        border: none;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0);
+        color: #ccc;
+        font-family: monospace;
+        font-size: 2.5em;
+        cursor: pointer;
+        justify-self: end;
+      }
+      div:where(.swal2-container) button:where(.swal2-close):hover {
+        transform: none;
+        background: rgba(0, 0, 0, 0);
+        color: #f27474;
+      }
+      div:where(.swal2-container) button:where(.swal2-close):focus {
+        outline: none;
+        box-shadow: inset 0 0 0 3px rgba(100, 150, 200, 0.5);
+      }
+      div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner {
+        border: 0;
+      }
+      div:where(.swal2-container) .swal2-html-container {
+        z-index: 1;
+        justify-content: center;
+        margin: 1em 1.6em 0.3em;
+        padding: 0;
+        overflow: auto;
+        color: inherit;
+        font-size: 1.125em;
+        font-weight: normal;
+        line-height: normal;
+        text-align: center;
+        word-wrap: break-word;
+        word-break: break-word;
+      }
+      div:where(.swal2-container) input:where(.swal2-input),
+      div:where(.swal2-container) input:where(.swal2-file),
+      div:where(.swal2-container) textarea:where(.swal2-textarea),
+      div:where(.swal2-container) select:where(.swal2-select),
+      div:where(.swal2-container) div:where(.swal2-radio),
+      div:where(.swal2-container) label:where(.swal2-checkbox) {
+        margin: 1em 2em 3px;
+      }
+      div:where(.swal2-container) input:where(.swal2-input),
+      div:where(.swal2-container) input:where(.swal2-file),
+      div:where(.swal2-container) textarea:where(.swal2-textarea) {
+        box-sizing: border-box;
+        width: auto;
+        transition:
+          border-color 0.1s,
+          box-shadow 0.1s;
+        border: 1px solid #d9d9d9;
+        border-radius: 0.1875em;
+        background: rgba(0, 0, 0, 0);
+        box-shadow:
+          inset 0 1px 1px rgba(0, 0, 0, 0.06),
+          0 0 0 3px rgba(0, 0, 0, 0);
+        color: inherit;
+        font-size: 1.125em;
+      }
+      div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,
+      div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,
+      div:where(.swal2-container)
+        textarea:where(.swal2-textarea).swal2-inputerror {
+        border-color: #f27474 !important;
+        box-shadow: 0 0 2px #f27474 !important;
+      }
+      div:where(.swal2-container) input:where(.swal2-input):focus,
+      div:where(.swal2-container) input:where(.swal2-file):focus,
+      div:where(.swal2-container) textarea:where(.swal2-textarea):focus {
+        border: 1px solid #b4dbed;
+        outline: none;
+        box-shadow:
+          inset 0 1px 1px rgba(0, 0, 0, 0.06),
+          0 0 0 3px rgba(100, 150, 200, 0.5);
+      }
+      div:where(.swal2-container) input:where(.swal2-input)::placeholder,
+      div:where(.swal2-container) input:where(.swal2-file)::placeholder,
+      div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder {
+        color: #ccc;
+      }
+      div:where(.swal2-container) .swal2-range {
+        margin: 1em 2em 3px;
+        background: #fff;
+      }
+      div:where(.swal2-container) .swal2-range input {
+        width: 80%;
+      }
+      div:where(.swal2-container) .swal2-range output {
+        width: 20%;
+        color: inherit;
+        font-weight: 600;
+        text-align: center;
+      }
+      div:where(.swal2-container) .swal2-range input,
+      div:where(.swal2-container) .swal2-range output {
+        height: 2.625em;
+        padding: 0;
+        font-size: 1.125em;
+        line-height: 2.625em;
+      }
+      div:where(.swal2-container) .swal2-input {
+        height: 2.625em;
+        padding: 0 0.75em;
+      }
+      div:where(.swal2-container) .swal2-file {
+        width: 75%;
+        margin-right: auto;
+        margin-left: auto;
+        background: rgba(0, 0, 0, 0);
+        font-size: 1.125em;
+      }
+      div:where(.swal2-container) .swal2-textarea {
+        height: 6.75em;
+        padding: 0.75em;
+      }
+      div:where(.swal2-container) .swal2-select {
+        min-width: 50%;
+        max-width: 100%;
+        padding: 0.375em 0.625em;
+        background: rgba(0, 0, 0, 0);
+        color: inherit;
+        font-size: 1.125em;
+      }
+      div:where(.swal2-container) .swal2-radio,
+      div:where(.swal2-container) .swal2-checkbox {
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        color: inherit;
+      }
+      div:where(.swal2-container) .swal2-radio label,
+      div:where(.swal2-container) .swal2-checkbox label {
+        margin: 0 0.6em;
+        font-size: 1.125em;
+      }
+      div:where(.swal2-container) .swal2-radio input,
+      div:where(.swal2-container) .swal2-checkbox input {
+        flex-shrink: 0;
+        margin: 0 0.4em;
+      }
+      div:where(.swal2-container) label:where(.swal2-input-label) {
+        display: flex;
+        justify-content: center;
+        margin: 1em auto 0;
+      }
+      div:where(.swal2-container) div:where(.swal2-validation-message) {
+        align-items: center;
+        justify-content: center;
+        margin: 1em 0 0;
+        padding: 0.625em;
+        overflow: hidden;
+        background: #f0f0f0;
+        color: #666;
+        font-size: 1em;
+        font-weight: 300;
+      }
+      div:where(.swal2-container) div:where(.swal2-validation-message)::before {
+        content: '!';
+        display: inline-block;
+        width: 1.5em;
+        min-width: 1.5em;
+        height: 1.5em;
+        margin: 0 0.625em;
+        border-radius: 50%;
+        background-color: #f27474;
+        color: #fff;
+        font-weight: 600;
+        line-height: 1.5em;
+        text-align: center;
+      }
+      div:where(.swal2-container) .swal2-progress-steps {
+        flex-wrap: wrap;
+        align-items: center;
+        max-width: 100%;
+        margin: 1.25em auto;
+        padding: 0;
+        background: rgba(0, 0, 0, 0);
+        font-weight: 600;
+      }
+      div:where(.swal2-container) .swal2-progress-steps li {
+        display: inline-block;
+        position: relative;
+      }
+      div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step {
+        z-index: 20;
+        flex-shrink: 0;
+        width: 2em;
+        height: 2em;
+        border-radius: 2em;
+        background: #2778c4;
+        color: #fff;
+        line-height: 2em;
+        text-align: center;
+      }
+      div:where(.swal2-container)
+        .swal2-progress-steps
+        .swal2-progress-step.swal2-active-progress-step {
+        background: #2778c4;
+      }
+      div:where(.swal2-container)
+        .swal2-progress-steps
+        .swal2-progress-step.swal2-active-progress-step
+        ~ .swal2-progress-step {
+        background: #add8e6;
+        color: #fff;
+      }
+      div:where(.swal2-container)
+        .swal2-progress-steps
+        .swal2-progress-step.swal2-active-progress-step
+        ~ .swal2-progress-step-line {
+        background: #add8e6;
+      }
+      div:where(.swal2-container)
+        .swal2-progress-steps
+        .swal2-progress-step-line {
+        z-index: 10;
+        flex-shrink: 0;
+        width: 2.5em;
+        height: 0.4em;
+        margin: 0 -1px;
+        background: #2778c4;
+      }
+      div:where(.swal2-icon) {
+        position: relative;
+        box-sizing: content-box;
+        justify-content: center;
+        width: 5em;
+        height: 5em;
+        margin: 2.5em auto 0.6em;
+        border: 0.25em solid rgba(0, 0, 0, 0);
+        border-radius: 50%;
+        border-color: #000;
+        font-family: inherit;
+        line-height: 5em;
+        cursor: default;
+        user-select: none;
+      }
+      div:where(.swal2-icon) .swal2-icon-content {
+        display: flex;
+        align-items: center;
+        font-size: 3.75em;
+      }
+      div:where(.swal2-icon).swal2-error {
+        border-color: #f27474;
+        color: #f27474;
+      }
+      div:where(.swal2-icon).swal2-error .swal2-x-mark {
+        position: relative;
+        flex-grow: 1;
+      }
+      div:where(.swal2-icon).swal2-error [class^='swal2-x-mark-line'] {
+        display: block;
+        position: absolute;
+        top: 2.3125em;
+        width: 2.9375em;
+        height: 0.3125em;
+        border-radius: 0.125em;
+        background-color: #f27474;
+      }
+      div:where(.swal2-icon).swal2-error
+        [class^='swal2-x-mark-line'][class$='left'] {
+        left: 1.0625em;
+        transform: rotate(45deg);
+      }
+      div:where(.swal2-icon).swal2-error
+        [class^='swal2-x-mark-line'][class$='right'] {
+        right: 1em;
+        transform: rotate(-45deg);
+      }
+      div:where(.swal2-icon).swal2-error.swal2-icon-show {
+        animation: swal2-animate-error-icon 0.5s;
+      }
+      div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark {
+        animation: swal2-animate-error-x-mark 0.5s;
+      }
+      div:where(.swal2-icon).swal2-warning {
+        border-color: #facea8;
+        color: #f8bb86;
+      }
+      div:where(.swal2-icon).swal2-warning.swal2-icon-show {
+        animation: swal2-animate-error-icon 0.5s;
+      }
+      div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content {
+        animation: swal2-animate-i-mark 0.5s;
+      }
+      div:where(.swal2-icon).swal2-info {
+        border-color: #9de0f6;
+        color: #3fc3ee;
+      }
+      div:where(.swal2-icon).swal2-info.swal2-icon-show {
+        animation: swal2-animate-error-icon 0.5s;
+      }
+      div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content {
+        animation: swal2-animate-i-mark 0.8s;
+      }
+      div:where(.swal2-icon).swal2-question {
+        border-color: #c9dae1;
+        color: #87adbd;
+      }
+      div:where(.swal2-icon).swal2-question.swal2-icon-show {
+        animation: swal2-animate-error-icon 0.5s;
+      }
+      div:where(.swal2-icon).swal2-question.swal2-icon-show
+        .swal2-icon-content {
+        animation: swal2-animate-question-mark 0.8s;
+      }
+      div:where(.swal2-icon).swal2-success {
+        border-color: #a5dc86;
+        color: #a5dc86;
+      }
+      div:where(.swal2-icon).swal2-success
+        [class^='swal2-success-circular-line'] {
+        position: absolute;
+        width: 3.75em;
+        height: 7.5em;
+        border-radius: 50%;
+      }
+      div:where(.swal2-icon).swal2-success
+        [class^='swal2-success-circular-line'][class$='left'] {
+        top: -0.4375em;
+        left: -2.0635em;
+        transform: rotate(-45deg);
+        transform-origin: 3.75em 3.75em;
+        border-radius: 7.5em 0 0 7.5em;
+      }
+      div:where(.swal2-icon).swal2-success
+        [class^='swal2-success-circular-line'][class$='right'] {
+        top: -0.6875em;
+        left: 1.875em;
+        transform: rotate(-45deg);
+        transform-origin: 0 3.75em;
+        border-radius: 0 7.5em 7.5em 0;
+      }
+      div:where(.swal2-icon).swal2-success .swal2-success-ring {
+        position: absolute;
+        z-index: 2;
+        top: -0.25em;
+        left: -0.25em;
+        box-sizing: content-box;
+        width: 100%;
+        height: 100%;
+        border: 0.25em solid rgba(165, 220, 134, 0.3);
+        border-radius: 50%;
+      }
+      div:where(.swal2-icon).swal2-success .swal2-success-fix {
+        position: absolute;
+        z-index: 1;
+        top: 0.5em;
+        left: 1.625em;
+        width: 0.4375em;
+        height: 5.625em;
+        transform: rotate(-45deg);
+      }
+      div:where(.swal2-icon).swal2-success [class^='swal2-success-line'] {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        height: 0.3125em;
+        border-radius: 0.125em;
+        background-color: #a5dc86;
+      }
+      div:where(.swal2-icon).swal2-success
+        [class^='swal2-success-line'][class$='tip'] {
+        top: 2.875em;
+        left: 0.8125em;
+        width: 1.5625em;
+        transform: rotate(45deg);
+      }
+      div:where(.swal2-icon).swal2-success
+        [class^='swal2-success-line'][class$='long'] {
+        top: 2.375em;
+        right: 0.5em;
+        width: 2.9375em;
+        transform: rotate(-45deg);
+      }
+      div:where(.swal2-icon).swal2-success.swal2-icon-show
+        .swal2-success-line-tip {
+        animation: swal2-animate-success-line-tip 0.75s;
+      }
+      div:where(.swal2-icon).swal2-success.swal2-icon-show
+        .swal2-success-line-long {
+        animation: swal2-animate-success-line-long 0.75s;
+      }
+      div:where(.swal2-icon).swal2-success.swal2-icon-show
+        .swal2-success-circular-line-right {
+        animation: swal2-rotate-success-circular-line 4.25s ease-in;
+      }
+      [class^='swal2'] {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+      .swal2-show {
+        animation: swal2-show 0.3s;
+      }
+      .swal2-hide {
+        animation: swal2-hide 0.15s forwards;
+      }
+      .swal2-noanimation {
+        transition: none;
+      }
+      .swal2-scrollbar-measure {
+        position: absolute;
+        top: -9999px;
+        width: 50px;
+        height: 50px;
+        overflow: scroll;
+      }
+      .swal2-rtl .swal2-close {
+        margin-right: initial;
+        margin-left: 0;
+      }
+      .swal2-rtl .swal2-timer-progress-bar {
+        right: 0;
+        left: auto;
+      }
+      @keyframes swal2-toast-show {
+        0% {
+          transform: translateY(-0.625em) rotateZ(2deg);
+        }
+        33% {
+          transform: translateY(0) rotateZ(-2deg);
+        }
+        66% {
+          transform: translateY(0.3125em) rotateZ(2deg);
+        }
+        100% {
+          transform: translateY(0) rotateZ(0deg);
+        }
+      }
+      @keyframes swal2-toast-hide {
+        100% {
+          transform: rotateZ(1deg);
+          opacity: 0;
+        }
+      }
+      @keyframes swal2-toast-animate-success-line-tip {
+        0% {
+          top: 0.5625em;
+          left: 0.0625em;
+          width: 0;
+        }
+        54% {
+          top: 0.125em;
+          left: 0.125em;
+          width: 0;
+        }
+        70% {
+          top: 0.625em;
+          left: -0.25em;
+          width: 1.625em;
+        }
+        84% {
+          top: 1.0625em;
+          left: 0.75em;
+          width: 0.5em;
+        }
+        100% {
+          top: 1.125em;
+          left: 0.1875em;
+          width: 0.75em;
+        }
+      }
+      @keyframes swal2-toast-animate-success-line-long {
+        0% {
+          top: 1.625em;
+          right: 1.375em;
+          width: 0;
+        }
+        65% {
+          top: 1.25em;
+          right: 0.9375em;
+          width: 0;
+        }
+        84% {
+          top: 0.9375em;
+          right: 0;
+          width: 1.125em;
+        }
+        100% {
+          top: 0.9375em;
+          right: 0.1875em;
+          width: 1.375em;
+        }
+      }
+      @keyframes swal2-show {
+        0% {
+          transform: scale(0.7);
+        }
+        45% {
+          transform: scale(1.05);
+        }
+        80% {
+          transform: scale(0.95);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes swal2-hide {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+      }
+      @keyframes swal2-animate-success-line-tip {
+        0% {
+          top: 1.1875em;
+          left: 0.0625em;
+          width: 0;
+        }
+        54% {
+          top: 1.0625em;
+          left: 0.125em;
+          width: 0;
+        }
+        70% {
+          top: 2.1875em;
+          left: -0.375em;
+          width: 3.125em;
+        }
+        84% {
+          top: 3em;
+          left: 1.3125em;
+          width: 1.0625em;
+        }
+        100% {
+          top: 2.8125em;
+          left: 0.8125em;
+          width: 1.5625em;
+        }
+      }
+      @keyframes swal2-animate-success-line-long {
+        0% {
+          top: 3.375em;
+          right: 2.875em;
+          width: 0;
+        }
+        65% {
+          top: 3.375em;
+          right: 2.875em;
+          width: 0;
+        }
+        84% {
+          top: 2.1875em;
+          right: 0;
+          width: 3.4375em;
+        }
+        100% {
+          top: 2.375em;
+          right: 0.5em;
+          width: 2.9375em;
+        }
+      }
+      @keyframes swal2-rotate-success-circular-line {
+        0% {
+          transform: rotate(-45deg);
+        }
+        5% {
+          transform: rotate(-45deg);
+        }
+        12% {
+          transform: rotate(-405deg);
+        }
+        100% {
+          transform: rotate(-405deg);
+        }
+      }
+      @keyframes swal2-animate-error-x-mark {
+        0% {
+          margin-top: 1.625em;
+          transform: scale(0.4);
+          opacity: 0;
+        }
+        50% {
+          margin-top: 1.625em;
+          transform: scale(0.4);
+          opacity: 0;
+        }
+        80% {
+          margin-top: -0.375em;
+          transform: scale(1.15);
+        }
+        100% {
+          margin-top: 0;
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes swal2-animate-error-icon {
+        0% {
+          transform: rotateX(100deg);
+          opacity: 0;
+        }
+        100% {
+          transform: rotateX(0deg);
+          opacity: 1;
+        }
+      }
+      @keyframes swal2-rotate-loading {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes swal2-animate-question-mark {
+        0% {
+          transform: rotateY(-360deg);
+        }
+        100% {
+          transform: rotateY(0);
+        }
+      }
+      @keyframes swal2-animate-i-mark {
+        0% {
+          transform: rotateZ(45deg);
+          opacity: 0;
+        }
+        25% {
+          transform: rotateZ(-25deg);
+          opacity: 0.4;
+        }
+        50% {
+          transform: rotateZ(15deg);
+          opacity: 0.8;
+        }
+        75% {
+          transform: rotateZ(-5deg);
+          opacity: 1;
+        }
+        100% {
+          transform: rotateX(0);
+          opacity: 1;
+        }
+      }
+      body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+        overflow: hidden;
+      }
+      body.swal2-height-auto {
+        height: auto !important;
+      }
+      body.swal2-no-backdrop .swal2-container {
+        background-color: rgba(0, 0, 0, 0) !important;
+        pointer-events: none;
+      }
+      body.swal2-no-backdrop .swal2-container .swal2-popup {
+        pointer-events: all;
+      }
+      body.swal2-no-backdrop .swal2-container .swal2-modal {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      }
+      @media print {
+        body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+          overflow-y: scroll !important;
+        }
+        body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)
+          > [aria-hidden='true'] {
+          display: none;
+        }
+        body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)
+          .swal2-container {
+          position: static !important;
+        }
+      }
+      body.swal2-toast-shown .swal2-container {
+        box-sizing: border-box;
+        width: 360px;
+        max-width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        pointer-events: none;
+      }
+      body.swal2-toast-shown .swal2-container.swal2-top {
+        inset: 0 auto auto 50%;
+        transform: translateX(-50%);
+      }
+      body.swal2-toast-shown .swal2-container.swal2-top-end,
+      body.swal2-toast-shown .swal2-container.swal2-top-right {
+        inset: 0 0 auto auto;
+      }
+      body.swal2-toast-shown .swal2-container.swal2-top-start,
+      body.swal2-toast-shown .swal2-container.swal2-top-left {
+        inset: 0 auto auto 0;
+      }
+      body.swal2-toast-shown .swal2-container.swal2-center-start,
+      body.swal2-toast-shown .swal2-container.swal2-center-left {
+        inset: 50% auto auto 0;
+        transform: translateY(-50%);
+      }
+      body.swal2-toast-shown .swal2-container.swal2-center {
+        inset: 50% auto auto 50%;
+        transform: translate(-50%, -50%);
+      }
+      body.swal2-toast-shown .swal2-container.swal2-center-end,
+      body.swal2-toast-shown .swal2-container.swal2-center-right {
+        inset: 50% 0 auto auto;
+        transform: translateY(-50%);
+      }
+      body.swal2-toast-shown .swal2-container.swal2-bottom-start,
+      body.swal2-toast-shown .swal2-container.swal2-bottom-left {
+        inset: auto auto 0 0;
+      }
+      body.swal2-toast-shown .swal2-container.swal2-bottom {
+        inset: auto auto 0 50%;
+        transform: translateX(-50%);
+      }
+      body.swal2-toast-shown .swal2-container.swal2-bottom-end,
+      body.swal2-toast-shown .swal2-container.swal2-bottom-right {
+        inset: auto 0 0 auto;
+      }
+    </style>
+    <script
+      bis_use="true"
+      type="text/javascript"
+      charset="utf-8"
+      data-bis-config='["facebook.com/","twitter.com/","youtube-nocookie.com/embed/","//vk.com/","//www.vk.com/","linkedin.com/","//www.linkedin.com/","//instagram.com/","//www.instagram.com/","//www.google.com/recaptcha/api2/","//hangouts.google.com/webchat/","//www.google.com/calendar/","//www.google.com/maps/embed","spotify.com/","soundcloud.com/","//player.vimeo.com/","//disqus.com/","//tgwidget.com/","//js.driftt.com/","friends2follow.com","/widget","login","//video.bigmir.net/","blogger.com","//smartlock.google.com/","//keep.google.com/","/web.tolstoycomments.com/","moz-extension://","chrome-extension://","/auth/","//analytics.google.com/","adclarity.com","paddle.com/checkout","hcaptcha.com","recaptcha.net","2captcha.com","accounts.google.com","www.google.com/shopping/customerreviews","buy.tinypass.com","gstatic.com","secureir.ebaystatic.com","docs.google.com","contacts.google.com","github.com","mail.google.com","chat.google.com","audio.xpleer.com","keepa.com","static.xx.fbcdn.net","sas.selleramp.com","1plus1.video","console.googletagservices.com","//lnkd.demdex.net/","//radar.cedexis.com/","//li.protechts.net/","challenges.cloudflare.com/","ogs.google.com"]'
+      src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/executors/traffic.js"
+    ></script>
+    <style>
+      .ejoy-sub-active{
+        color: #1296ba !important;
+      }
+
+      .ejoy-sub-hovered{
+        color: #1296ba !important;
+      }
+      .ejoy-sub-clzz{
+        cursor: pointer;
+
+        lineHeight: 1.2;
+          font-size: 28px;
+          color: #FFCC00; background: rgba(17, 17, 17, 0.7);
+
+      }
+      .ejoy-sub-clzz:hover{
+        color: #1296ba !important;
+      }
+      .ej-trans-sub{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999999;
+        cursor: move;
+      }
+      .ej-trans-sub > span{
+        color: #3CF9ED;
+        font-size: 18px;
+        text-align: center;
+        padding: 0 16px;
+        line-height: 1.5;
+        background: rgba(32, 26, 25, 0.8);
+        // text-shadow: 0px 1px 4px black;
+        padding: 0 8px;
+
+        lineHeight: 1.2;
+        font-size: 16px;
+        color: #0CB1C7; background: rgba(67, 65, 65, 0.7);
+
+      }
+      .ej-full-screen-video{
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: 30px;
+        right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999999;
+        cursor: pointer;
+      }
+      .ej-main-sub{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999999;
+        cursor: move;
+        padding: 0 8px;
+      }
+      .ej-main-sub > span{
+        color: white;
+        font-size: 20px;
+        line-height: 1.5;
+        text-align: center;
+        background: rgba(32, 26, 25, 0.8);
+        padding: 2px 8px;
+
+        lineHeight: 1.2;
+          font-size: 28px;
+          color: #FFCC00; background: rgba(17, 17, 17, 0.7);
+
+      }
+
+      .ej-main-sub .ejoy-sub-clzz{
+        background: transparent !important
+      }
+
+      .tran-subtitle > span{
+        cursor: pointer;
+        padding-left: 10px;
+        top: 2px;
+        position: relative;
+      }
+
+      .tran-subtitle > span > span{
+        position: absolute;
+        top: -170%;
+        background: rgba(0,0,0,0.5);
+        font-size: 13px;
+        line-height: 20px;
+        padding: 2px 8px;
+        color: white;
+        display: none;
+        border-radius: 4px;
+        white-space: nowrap;
+        left: -50%;
+        font-weight: normal;
+      }
+
+      .viewPopupPro {
+        z-index: 2147483647;
+        cursor: auto;
+        position: absolute;
+        z-index: 2147483647;
+        background: #111111;
+        transition: opacity 1s;
+        width: 172px;
+        height: 66px;
+        opacity: 1;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .titlePopupPro {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 12px;
+        color: #E5E5E5;
+        text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+      }
+
+      .viewGoPro {
+        background: #FFCC00;
+        border-radius: 72.6257px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 8px;
+        padding-left: 10px;
+        cursor: pointer;
+
+      }
+
+      .viewGoPro svg {
+        pointer-events: none;
+      }
+
+      .textGoPro {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 12px;
+        pointer-events: none;
+        text-align: center;
+        color: #FFFFFF;
+        padding: 4px 14px 4px 4px;
+      }
+
+      .viewPopupPro{
+        top: auto !important;
+        bottom: 15px !important;
+      }
+
+      .view-icon-copy-main-sub:hover > span,
+      .view-icon-edit-sub:hover > span,
+      .view-icon-exit-full-sub:hover > span,
+      .view-icon-full-sub:hover > span,
+      .iconCrownGoPro:hover > span,
+      .view-icon-copy-tran-sub:hover > span {
+        display: block;
+      }
+
+      .iconCrownGoPro{
+        padding-left: 0px !important;
+        padding-right: 8px !important;
+      }
+      .iconCrownGoPro svg{
+        width: 17px;
+        height: 17px;
+      }
+      .view-icon-full-sub, .view-icon-exit-full-sub {
+        display: flex;
+      }
+
+      .view-icon-full-sub > svg, .view-icon-exit-full-sub > svg {
+        pointer-events: none;
+      }
+
+      .tran-subtitle > span > svg{
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+        display: inline-flex !important;
+        vertical-align: baseline !important;
+      }
+
+      .view-icon-copy-main-sub > svg{
+        pointer-events: none;
+        color: #FFCC00
+      }
+
+      .iconCrownGoPro{
+        padding-left: 0 !important;
+        padding-right: 8px !important;
+      }
+      .view-icon-copy-tran-sub > svg{
+        pointer-events: none;
+        color: #0CB1C7
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50"
+    __processed_a616227b-0c16-4ff1-91b1-a58252c3b772__="true"
+    bis_status="ok"
+    bis_frame_id="268"
+  >
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes fixed inset-0 pointer-events-none">
+      <div
+        class="shape w-16 h-16 bg-purple-300 rounded-full"
+        style="left: 10%; animation-delay: 0s"
+      ></div>
+      <div
+        class="shape w-12 h-12 bg-blue-300 rounded-full"
+        style="left: 20%; animation-delay: 2s"
+      ></div>
+      <div
+        class="shape w-20 h-20 bg-pink-300 rounded-full"
+        style="left: 60%; animation-delay: 4s"
+      ></div>
+      <div
+        class="shape w-8 h-8 bg-indigo-300 rounded-full"
+        style="left: 80%; animation-delay: 6s"
+      ></div>
+    </div>
+
+    <!-- Header -->
+    <header
+      class="glass-card sticky top-0 z-50 border-b-0"
+      style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <div
+                class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-3"
+              >
+                <span class="text-white text-xl font-bold">🧠</span>
+              </div>
+              <h1 class="text-2xl font-bold gradient-text">MindCare</h1>
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-8">
+              <a
+                href="#services"
+                class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-purple-50"
+                >Dịch vụ</a
+              >
+              <a
+                href="#surveys"
+                class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-purple-50"
+                >Khảo sát</a
+              >
+              <a
+                href="#experts"
+                class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-purple-50"
+                >Chuyên gia</a
+              >
+              <a
+                href="#contact"
+                class="btn-primary text-white px-6 py-3 rounded-xl text-sm font-semibold"
+                >Tư vấn ngay</a
+              >
+            </div>
+          </div>
+          <div class="md:hidden">
+            <button
+              id="mobile-menu-btn"
+              class="text-gray-700 hover:text-purple-600 p-2 rounded-lg"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </nav>
+      <!-- Mobile menu -->
+      <div
+        id="mobile-menu"
+        class="md:hidden hidden bg-white/95 backdrop-blur-lg border-t border-gray-200"
+      >
+        <div class="px-4 pt-4 pb-6 space-y-2">
+          <a
+            href="#services"
+            class="block px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+            >Dịch vụ</a
+          >
+          <a
+            href="#surveys"
+            class="block px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+            >Khảo sát</a
+          >
+          <a
+            href="#experts"
+            class="block px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+            >Chuyên gia</a
+          >
+          <a
+            href="#contact"
+            class="block px-4 py-3 text-gray-700 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+            >Liên hệ</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-32 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center">
+          <div class="inline-block mb-6">
+            <span
+              class="bg-white/20 backdrop-blur-lg text-white px-6 py-2 rounded-full text-sm font-medium"
+            >
+              ✨ Chào mừng đến với MindCare
+            </span>
+          </div>
+          <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            Chăm sóc <br />
+            <span class="text-yellow-300">tâm hồn</span> bạn
+          </h1>
+          <p
+            class="text-xl md:text-2xl mb-12 max-w-4xl mx-auto opacity-90 leading-relaxed"
+          >
+            Đồng hành cùng bạn trên hành trình phát triển tâm lý, nâng cao IQ
+            &amp; EQ với đội ngũ chuyên gia hàng đầu
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          >
+            <button
+              onclick="scrollToSection('surveys')"
+              class="btn-primary text-white px-10 py-4 rounded-2xl font-semibold text-lg pulse-animation"
+            >
+              🎯 Khảo sát miễn phí
+            </button>
+            <button
+              onclick="scrollToSection('contact')"
+              class="glass-card text-white px-10 py-4 rounded-2xl font-semibold text-lg hover:bg-white/30 transition-all duration-300"
+              style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+            >
+              💬 Tư vấn trực tiếp
+            </button>
+          </div>
+          <div class="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+            <div class="text-center">
+              <div class="text-3xl font-bold mb-2">1000+</div>
+              <div class="text-sm opacity-80">Khách hàng tin tưởng</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold mb-2">15+</div>
+              <div class="text-sm opacity-80">Chuyên gia kinh nghiệm</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold mb-2">98%</div>
+              <div class="text-sm opacity-80">Khách hàng hài lòng</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <div class="inline-block mb-4">
+            <span
+              class="bg-purple-100 text-purple-600 px-4 py-2 rounded-full text-sm font-medium"
+            >
+              🌟 Dịch vụ chuyên nghiệp
+            </span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Giải pháp toàn diện
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Chúng tôi cung cấp các dịch vụ tư vấn tâm lý chuyên sâu, phù hợp với
+            mọi lứa tuổi và nhu cầu
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="service-card bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8 rounded-3xl border border-blue-100"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-2xl"
+            >
+              📚
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              Tâm lý học đường
+            </h3>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Hỗ trợ học sinh vượt qua khó khăn trong học tập, quản lý stress và
+              xây dựng động lực học tập
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-blue-600 font-medium"
+                >Từ 500.000đ/buổi</span
+              >
+              <button
+                class="text-blue-600 font-semibold hover:text-blue-800 transition-colors"
+              >
+                Tìm hiểu →
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 p-8 rounded-3xl border border-green-100"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 text-2xl"
+            >
+              👨‍👩‍👧‍👦
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">
+              Tư vấn gia đình
+            </h3>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Hướng dẫn kỹ năng nuôi dạy con, cải thiện giao tiếp và xây dựng
+              mối quan hệ gia đình hạnh phúc
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-green-600 font-medium"
+                >Từ 600.000đ/buổi</span
+              >
+              <button
+                class="text-green-600 font-semibold hover:text-green-800 transition-colors"
+              >
+                Tìm hiểu →
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50 p-8 rounded-3xl border border-purple-100"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center mb-6 text-2xl"
+            >
+              🧩
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Phát triển IQ</h3>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Đánh giá và phát triển trí tuệ, tư duy logic, khả năng giải quyết
+              vấn đề một cách hiệu quả
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-purple-600 font-medium"
+                >Từ 700.000đ/buổi</span
+              >
+              <button
+                class="text-purple-600 font-semibold hover:text-purple-800 transition-colors"
+              >
+                Tìm hiểu →
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="service-card bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 p-8 rounded-3xl border border-pink-100"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mb-6 text-2xl"
+            >
+              ❤️
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Phát triển EQ</h3>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Nâng cao trí tuệ cảm xúc, kỹ năng giao tiếp và khả năng quản lý
+              cảm xúc trong cuộc sống
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-pink-600 font-medium"
+                >Từ 650.000đ/buổi</span
+              >
+              <button
+                class="text-pink-600 font-semibold hover:text-pink-800 transition-colors"
+              >
+                Tìm hiểu →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Surveys Section -->
+    <section
+      id="surveys"
+      class="py-24 bg-gradient-to-br from-gray-50 to-blue-50 relative"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <div class="inline-block mb-4">
+            <span
+              class="bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium"
+            >
+              🎯 Khảo sát chuyên nghiệp
+            </span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Tự đánh giá bản thân
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Khám phá tiềm năng và hiểu rõ hơn về bản thân qua các bài test được
+            thiết kế bởi chuyên gia
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="glass-card p-8 rounded-3xl hover:shadow-2xl transition-all duration-300"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-3xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <span class="text-3xl">🎯</span>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">
+              Test IQ Chuẩn Quốc Tế
+            </h3>
+            <p class="text-gray-600 mb-6 text-center leading-relaxed">
+              Đánh giá chỉ số thông minh với bài test được chuẩn hóa theo tiêu
+              chuẩn quốc tế, kết quả chính xác cao
+            </p>
+            <div class="flex items-center justify-center space-x-4 mb-6">
+              <span
+                class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium"
+                >⏱️ 45 phút</span
+              >
+              <span
+                class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium"
+                >🆓 Miễn phí</span
+              >
+            </div>
+            <button
+              class="w-full btn-primary text-white py-4 rounded-2xl font-semibold text-lg"
+            >
+              Bắt đầu ngay
+            </button>
+          </div>
+
+          <div
+            class="glass-card p-8 rounded-3xl hover:shadow-2xl transition-all duration-300"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <span class="text-3xl">💝</span>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">
+              Test EQ - Trí Tuệ Cảm Xúc
+            </h3>
+            <p class="text-gray-600 mb-6 text-center leading-relaxed">
+              Khám phá khả năng nhận biết, hiểu và quản lý cảm xúc của bản thân
+              cũng như người khác
+            </p>
+            <div class="flex items-center justify-center space-x-4 mb-6">
+              <span
+                class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium"
+                >⏱️ 30 phút</span
+              >
+              <span
+                class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium"
+                >🆓 Miễn phí</span
+              >
+            </div>
+            <button
+              class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+            >
+              Bắt đầu ngay
+            </button>
+          </div>
+
+          <div
+            class="glass-card p-8 rounded-3xl hover:shadow-2xl transition-all duration-300"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div
+              class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center mb-6 mx-auto"
+            >
+              <span class="text-3xl">🌟</span>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">
+              Đánh Giá Tính Cách
+            </h3>
+            <p class="text-gray-600 mb-6 text-center leading-relaxed">
+              Hiểu rõ đặc điểm tính cách, điểm mạnh và phong cách làm việc phù
+              hợp với bản thân
+            </p>
+            <div class="flex items-center justify-center space-x-4 mb-6">
+              <span
+                class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-medium"
+                >⏱️ 25 phút</span
+              >
+              <span
+                class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium"
+                >🆓 Miễn phí</span
+              >
+            </div>
+            <button
+              class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+            >
+              Bắt đầu ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experts Section -->
+    <section id="experts" class="py-24 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <div class="inline-block mb-4">
+            <span
+              class="bg-indigo-100 text-indigo-600 px-4 py-2 rounded-full text-sm font-medium"
+            >
+              👨‍⚕️ Đội ngũ chuyên gia
+            </span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Chuyên gia hàng đầu
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Đội ngũ tâm lý học có trình độ cao, nhiều năm kinh nghiệm và được
+            chứng nhận quốc tế
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-10">
+          <div
+            class="expert-card glass-card p-8 rounded-3xl text-center"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div class="relative mb-6">
+              <div
+                class="w-32 h-32 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-bold shadow-2xl"
+              >
+                TS
+              </div>
+              <div
+                class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center"
+              >
+                <span class="text-white text-xs">✓</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              TS. Nguyễn Thị Minh
+            </h3>
+            <p class="text-indigo-600 font-semibold mb-4">
+              Chuyên gia tâm lý trẻ em &amp; học đường
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              15+ năm kinh nghiệm trong lĩnh vực tâm lý học đường, phát triển
+              trẻ em và tư vấn gia đình
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span
+                class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Tâm lý học đường</span
+              >
+              <span
+                class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Phát triển IQ</span
+              >
+              <span
+                class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Tư vấn gia đình</span
+              >
+            </div>
+            <div class="flex items-center justify-center mb-4">
+              <div class="flex text-yellow-400">⭐⭐⭐⭐⭐</div>
+              <span class="ml-2 text-gray-600 text-sm"
+                >(4.9/5 - 127 đánh giá)</span
+              >
+            </div>
+            <button
+              class="w-full btn-primary text-white py-3 rounded-xl font-semibold"
+            >
+              Đặt lịch tư vấn
+            </button>
+          </div>
+
+          <div
+            class="expert-card glass-card p-8 rounded-3xl text-center"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div class="relative mb-6">
+              <div
+                class="w-32 h-32 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-bold shadow-2xl"
+              >
+                BS
+              </div>
+              <div
+                class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center"
+              >
+                <span class="text-white text-xs">✓</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              BS. Trần Văn Hùng
+            </h3>
+            <p class="text-indigo-600 font-semibold mb-4">
+              Chuyên gia tâm lý gia đình &amp; cặp đôi
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              12+ năm tư vấn về mối quan hệ gia đình, kỹ năng làm cha mẹ và giải
+              quyết xung đột
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span
+                class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Tâm lý gia đình</span
+              >
+              <span
+                class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Tư vấn cặp đôi</span
+              >
+              <span
+                class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Làm cha mẹ</span
+              >
+            </div>
+            <div class="flex items-center justify-center mb-4">
+              <div class="flex text-yellow-400">⭐⭐⭐⭐⭐</div>
+              <span class="ml-2 text-gray-600 text-sm"
+                >(4.8/5 - 89 đánh giá)</span
+              >
+            </div>
+            <button
+              class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+            >
+              Đặt lịch tư vấn
+            </button>
+          </div>
+
+          <div
+            class="expert-card glass-card p-8 rounded-3xl text-center"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <div class="relative mb-6">
+              <div
+                class="w-32 h-32 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-bold shadow-2xl"
+              >
+                ThS
+              </div>
+              <div
+                class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center"
+              >
+                <span class="text-white text-xs">✓</span>
+              </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              ThS. Lê Thị Hoa
+            </h3>
+            <p class="text-indigo-600 font-semibold mb-4">
+              Chuyên gia phát triển EQ &amp; kỹ năng sống
+            </p>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              10+ năm kinh nghiệm trong phát triển trí tuệ cảm xúc, kỹ năng giao
+              tiếp và lãnh đạo
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span
+                class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Phát triển EQ</span
+              >
+              <span
+                class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Kỹ năng sống</span
+              >
+              <span
+                class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm font-medium"
+                >Lãnh đạo</span
+              >
+            </div>
+            <div class="flex items-center justify-center mb-4">
+              <div class="flex text-yellow-400">⭐⭐⭐⭐⭐</div>
+              <span class="ml-2 text-gray-600 text-sm"
+                >(4.9/5 - 156 đánh giá)</span
+              >
+            </div>
+            <button
+              class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300"
+            >
+              Đặt lịch tư vấn
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section
+      id="contact"
+      class="py-24 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative"
+    >
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <div class="inline-block mb-4">
+            <span
+              class="bg-indigo-100 text-indigo-600 px-4 py-2 rounded-full text-sm font-medium"
+            >
+              💬 Liên hệ với chúng tôi
+            </span>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Sẵn sàng hỗ trợ bạn
+          </h2>
+          <p class="text-xl text-gray-600">
+            Đội ngũ tư vấn viên chuyên nghiệp luôn sẵn sàng lắng nghe và hỗ trợ
+            bạn 24/7
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-16">
+          <div>
+            <h3 class="text-3xl font-bold text-gray-900 mb-8">
+              Thông tin liên hệ
+            </h3>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0"
+                >
+                  <span class="text-white text-xl">📍</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-gray-900 text-lg mb-2">
+                    Địa chỉ văn phòng
+                  </h4>
+                  <p class="text-gray-600 leading-relaxed">
+                    123 Đường Nguyễn Huệ, Quận 1<br />Thành phố Hồ Chí Minh,
+                    Việt Nam
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0"
+                >
+                  <span class="text-white text-xl">📞</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-gray-900 text-lg mb-2">
+                    Hotline 24/7
+                  </h4>
+                  <p class="text-gray-600 leading-relaxed">
+                    0123 456 789<br />1900 123 456 (miễn phí)
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0"
+                >
+                  <span class="text-white text-xl">✉️</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-gray-900 text-lg mb-2">
+                    Email hỗ trợ
+                  </h4>
+                  <p class="text-gray-600 leading-relaxed">
+                    support@mindcare.vn<br />info@mindcare.vn
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0"
+                >
+                  <span class="text-white text-xl">🕒</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-gray-900 text-lg mb-2">
+                    Giờ làm việc
+                  </h4>
+                  <p class="text-gray-600 leading-relaxed">
+                    Thứ 2 - Thứ 7: 8:00 - 20:00<br />Chủ nhật: 9:00 - 17:00
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="glass-card p-10 rounded-3xl"
+            style="opacity: 1; transform: translateY(0px); transition: 0.6s"
+          >
+            <h3 class="text-2xl font-bold text-gray-900 mb-8">
+              Gửi tin nhắn cho chúng tôi
+            </h3>
+            <form class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Họ và tên *</label
+                  >
+                  <input
+                    type="text"
+                    class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                    placeholder="Nhập họ và tên của bạn"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-3"
+                    >Số điện thoại *</label
+                  >
+                  <input
+                    type="tel"
+                    class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                    placeholder="Nhập số điện thoại"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-3"
+                  >Email *</label
+                >
+                <input
+                  type="email"
+                  class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                  placeholder="Nhập địa chỉ email"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-3"
+                  >Dịch vụ quan tâm</label
+                >
+                <select
+                  class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                >
+                  <option>Chọn dịch vụ bạn quan tâm</option>
+                  <option>Tâm lý học đường</option>
+                  <option>Tư vấn gia đình</option>
+                  <option>Phát triển IQ</option>
+                  <option>Phát triển EQ</option>
+                  <option>Tư vấn cặp đôi</option>
+                  <option>Khác</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-3"
+                  >Tin nhắn *</label
+                >
+                <textarea
+                  rows="5"
+                  class="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                  placeholder="Mô tả chi tiết vấn đề bạn cần tư vấn..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full btn-primary text-white py-4 rounded-xl font-semibold text-lg"
+              >
+                🚀 Gửi tin nhắn ngay
+              </button>
+            </form>
+            <div
+              class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl"
+            >
+              <p class="text-sm text-amber-800">
+                <strong>📝 Lưu ý:</strong> Đây là form demo để trình diễn giao
+                diện. Trong thực tế cần tích hợp với hệ thống email backend để
+                xử lý tin nhắn.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 opacity-50"
+      ></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid md:grid-cols-4 gap-12">
+          <div class="md:col-span-2">
+            <div class="flex items-center mb-6">
+              <div
+                class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4"
+              >
+                <span class="text-white text-xl font-bold">🧠</span>
+              </div>
+              <h3 class="text-2xl font-bold gradient-text">MindCare</h3>
+            </div>
+            <p class="text-gray-300 mb-6 leading-relaxed text-lg">
+              Đồng hành cùng bạn trên hành trình phát triển tâm lý và cảm xúc.
+              Chúng tôi cam kết mang đến những giải pháp tư vấn chuyên nghiệp và
+              hiệu quả nhất.
+            </p>
+            <div class="flex space-x-4">
+              <div
+                class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors"
+              >
+                <span class="text-xl">📘</span>
+              </div>
+              <div
+                class="w-12 h-12 bg-pink-600 rounded-xl flex items-center justify-center cursor-pointer hover:bg-pink-700 transition-colors"
+              >
+                <span class="text-xl">📷</span>
+              </div>
+              <div
+                class="w-12 h-12 bg-blue-400 rounded-xl flex items-center justify-center cursor-pointer hover:bg-blue-500 transition-colors"
+              >
+                <span class="text-xl">🐦</span>
+              </div>
+              <div
+                class="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors"
+              >
+                <span class="text-xl">📺</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-bold mb-6 text-lg">Dịch vụ</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Tâm lý học đường</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Tư vấn gia đình</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Phát triển IQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Phát triển EQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Tư vấn cặp đôi</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold mb-6 text-lg">Hỗ trợ</h4>
+            <ul class="space-y-3 text-gray-300">
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Câu hỏi thường gặp</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Hướng dẫn sử dụng</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Chính sách bảo mật</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Điều khoản sử dụng</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-white transition-colors hover:translate-x-1 inline-block"
+                  >Liên hệ hỗ trợ</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-12 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 mb-4 md:mb-0">
+              © 2024 MindCare. Tất cả quyền được bảo lưu.
+            </p>
+            <div class="flex items-center space-x-6 text-gray-400">
+              <span>🏆 Chứng nhận ISO 9001:2015</span>
+              <span>🔒 Bảo mật SSL</span>
+              <span>✅ Đã xác thực</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .getElementById('mobile-menu-btn')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobile-menu');
+          mobileMenu.classList.toggle('hidden');
+        });
+
+      // Smooth scrolling function
+      function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
+
+      // Add smooth scrolling to navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+            });
+          }
+          // Close mobile menu if open
+          document.getElementById('mobile-menu').classList.add('hidden');
+        });
+      });
+
+      // Form submission handler
+      document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Simple form validation
+        const name = this.querySelector('input[type="text"]').value;
+        const phone = this.querySelector('input[type="tel"]').value;
+        const email = this.querySelector('input[type="email"]').value;
+        const message = this.querySelector('textarea').value;
+
+        if (!name || !phone || !email || !message) {
+          alert('⚠️ Vui lòng điền đầy đủ thông tin bắt buộc!');
+          return;
+        }
+
+        // Success message
+        alert(
+          '🎉 Cảm ơn bạn đã gửi tin nhắn! Chúng tôi sẽ liên hệ lại trong vòng 24 giờ.'
+        );
+        this.reset();
+      });
+
+      // Survey button handlers
+      document.querySelectorAll('button').forEach(button => {
+        if (button.textContent.includes('Bắt đầu ngay')) {
+          button.addEventListener('click', function () {
+            alert(
+              '🎯 Chức năng khảo sát đang được phát triển. Vui lòng liên hệ hotline 0123 456 789 để được tư vấn trực tiếp!'
+            );
+          });
+        }
+      });
+
+      // Expert consultation buttons
+      document.querySelectorAll('button').forEach(button => {
+        if (button.textContent.includes('Đặt lịch tư vấn')) {
+          button.addEventListener('click', function () {
+            alert(
+              '📞 Vui lòng liên hệ hotline 0123 456 789 hoặc điền form bên dưới để đặt lịch tư vấn với chuyên gia!'
+            );
+            scrollToSection('contact');
+          });
+        }
+      });
+
+      // Service info buttons
+      document.querySelectorAll('button').forEach(button => {
+        if (button.textContent.includes('Tìm hiểu')) {
+          button.addEventListener('click', function () {
+            alert(
+              '📋 Để biết thêm chi tiết về dịch vụ, vui lòng liên hệ với chúng tôi qua form bên dưới!'
+            );
+            scrollToSection('contact');
+          });
+        }
+      });
+
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements for animation
+      document
+        .querySelectorAll('.service-card, .expert-card, .glass-card')
+        .forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(30px)';
+          el.style.transition = 'all 0.6s ease';
+          observer.observe(el);
+        });
+
+      // Add floating animation to shapes
+      const shapes = document.querySelectorAll('.shape');
+      shapes.forEach((shape, index) => {
+        shape.style.animationDelay = `${index * 2}s`;
+      });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement('script');
+            d.innerHTML =
+              "window.__CF$cv$params={r:'95ee2fdff7261057',t:'MTc1MjQ2NjQwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement('iframe');
+          a.height = 1;
+          a.width = 1;
+          a.style.position = 'absolute';
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = 'none';
+          a.style.visibility = 'hidden';
+          document.body.appendChild(a);
+          if ('loading' !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener('DOMContentLoaded', c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              'loading' !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+    <iframe
+      height="1"
+      width="1"
+      style="
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        border: none;
+        visibility: hidden;
+      "
+    ></iframe>
+  </body>
+  <div
+    id="eJOY__extension_root"
+    class="eJOY__extension_root_class"
+    style="all: unset"
+  ></div>
+</html>
